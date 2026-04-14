@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import SalonMenu from './App'
-import AdminPanel from './Admin'
 import './index.css'
+
+const AdminPanel = lazy(() => import('./Admin'))
 
 function Router() {
   const [route, setRoute] = useState(window.location.hash);
@@ -13,7 +14,13 @@ function Router() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  if (route === "#admin") return <AdminPanel />;
+  if (route === "#admin") {
+    return (
+      <Suspense fallback={<div style={{ height: '100vh', background: '#000' }} />}>
+        <AdminPanel />
+      </Suspense>
+    );
+  }
   return <SalonMenu />;
 }
 

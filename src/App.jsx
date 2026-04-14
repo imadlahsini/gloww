@@ -8,7 +8,7 @@ function useLoadData() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/data.json?" + Date.now())
+    fetch("/data.json")
       .then(r => r.json())
       .then(data => {
         // Filter out hidden categories and services
