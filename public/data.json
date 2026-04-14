@@ -1,0 +1,780 @@
+{
+  "categories": [
+    {
+      "id": "head-spa",
+      "name": "Head Spa",
+      "image": "https://picsum.photos/seed/headspa22/200/200",
+      "heroImage": "https://picsum.photos/seed/headspa22/800/1200",
+      "services": [
+        {
+          "id": 1,
+          "name": "Royale Head Spa",
+          "price": 600,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/royalespa/400/300",
+          "description": "Notre soin signature le plus complet pour le cuir chevelu"
+        },
+        {
+          "id": 2,
+          "name": "Luxury Head Spa",
+          "price": 500,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/luxspa/400/300",
+          "description": "Expérience premium de bien-être capillaire"
+        },
+        {
+          "id": 3,
+          "name": "Soin Hydratant du Cuir Chevelu",
+          "price": 450,
+          "duration": "45m",
+          "image": "https://picsum.photos/seed/hydraspa/400/300",
+          "description": "Hydratation profonde et revitalisante"
+        },
+        {
+          "id": 4,
+          "name": "Rituel Relaxant du Cuir Chevelu",
+          "price": 400,
+          "duration": "40m",
+          "image": "https://picsum.photos/seed/rituelspa/400/300",
+          "description": "Massage et soin relaxant en profondeur"
+        },
+        {
+          "id": 5,
+          "name": "Head Spa Détox",
+          "price": 300,
+          "duration": "30m",
+          "image": "https://picsum.photos/seed/detoxspa/400/300",
+          "description": "Purification et détoxification du cuir chevelu"
+        }
+      ]
+    },
+    {
+      "id": "lifting",
+      "name": "Lifting",
+      "image": "https://picsum.photos/seed/lifting99/200/200",
+      "heroImage": "https://picsum.photos/seed/lifting99/800/1200",
+      "services": [
+        {
+          "id": 6,
+          "name": "Lifting Colombien",
+          "price": 150,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/liftcol/400/300",
+          "description": "Remodelage facial non invasif à partir de"
+        }
+      ]
+    },
+    {
+      "id": "detatouage",
+      "name": "Détatouage",
+      "image": "https://picsum.photos/seed/tattoo55/200/200",
+      "heroImage": "https://picsum.photos/seed/tattoo55/800/1200",
+      "services": [
+        {
+          "id": 7,
+          "name": "Détatouage",
+          "price": 400,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/detat/400/300",
+          "description": "Retrait de tatouage par laser à partir de"
+        }
+      ]
+    },
+    {
+      "id": "makeup",
+      "name": "Makeup Artist",
+      "image": "https://picsum.photos/seed/makeup88/200/200",
+      "heroImage": "https://picsum.photos/seed/makeup88/800/1200",
+      "services": [
+        {
+          "id": 8,
+          "name": "Makeup Mariée",
+          "price": 2500,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/bridal/400/300",
+          "description": "Mise en beauté complète pour le jour J à partir de"
+        },
+        {
+          "id": 9,
+          "name": "Makeup Fiançailles",
+          "price": 1500,
+          "duration": "2h 45m",
+          "image": "https://picsum.photos/seed/fiance/400/300",
+          "description": "Look raffiné pour vos fiançailles à partir de"
+        },
+        {
+          "id": 10,
+          "name": "Makeup Invitée",
+          "price": 600,
+          "duration": "1h 30m",
+          "image": "https://picsum.photos/seed/invitee/400/300",
+          "description": "Maquillage élégant pour événement"
+        },
+        {
+          "id": 11,
+          "name": "Makeup Salon",
+          "price": 250,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/maksal/400/300",
+          "description": "Maquillage professionnel en salon"
+        }
+      ]
+    },
+    {
+      "id": "laser",
+      "name": "Épilation Laser",
+      "image": "https://picsum.photos/seed/laser77/200/200",
+      "heroImage": "https://picsum.photos/seed/laser77/800/1200",
+      "services": [
+        {
+          "id": 12,
+          "name": "Corps Complet",
+          "price": 6000,
+          "duration": "2h 15m",
+          "image": "https://picsum.photos/seed/laserfull/400/300",
+          "description": "Traitement laser intégral du corps à partir de"
+        },
+        {
+          "id": 13,
+          "name": "Jambes Complet",
+          "price": 800,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/laserlegs/400/300",
+          "description": "Épilation définitive des jambes entières"
+        },
+        {
+          "id": 14,
+          "name": "Bras Complet",
+          "price": 600,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/laserarms/400/300",
+          "description": "Épilation définitive des bras entiers"
+        },
+        {
+          "id": 15,
+          "name": "Visage",
+          "price": 600,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/laserface/400/300",
+          "description": "Traitement laser complet du visage"
+        },
+        {
+          "id": 16,
+          "name": "Maillot",
+          "price": 600,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/laserbik/400/300",
+          "description": "Épilation définitive zone maillot"
+        },
+        {
+          "id": 17,
+          "name": "Les Fesses",
+          "price": 600,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/laserbut/400/300",
+          "description": "Traitement laser zone fessier"
+        },
+        {
+          "id": 18,
+          "name": "Le Dos",
+          "price": 600,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/laserback/400/300",
+          "description": "Épilation définitive du dos"
+        },
+        {
+          "id": 19,
+          "name": "Demis Jambes",
+          "price": 600,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/laserhleg/400/300",
+          "description": "Épilation laser demi-jambes"
+        },
+        {
+          "id": 20,
+          "name": "La Ventre",
+          "price": 500,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/laserbelly/400/300",
+          "description": "Traitement laser zone abdominale"
+        },
+        {
+          "id": 21,
+          "name": "Demis Bras",
+          "price": 400,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/laserharm/400/300",
+          "description": "Épilation laser demi-bras"
+        },
+        {
+          "id": 22,
+          "name": "Les Aisselles",
+          "price": 400,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/laserax/400/300",
+          "description": "Épilation définitive des aisselles"
+        },
+        {
+          "id": 23,
+          "name": "Menton",
+          "price": 200,
+          "duration": "20m",
+          "image": "https://picsum.photos/seed/laserchin/400/300",
+          "description": "Traitement laser ciblé du menton"
+        }
+      ]
+    },
+    {
+      "id": "cire",
+      "name": "Épilation Cire",
+      "image": "https://picsum.photos/seed/wax44/200/200",
+      "heroImage": "https://picsum.photos/seed/wax44/800/1200",
+      "services": [
+        {
+          "id": 24,
+          "name": "Corps Complet",
+          "price": 300,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/waxfull/400/300",
+          "description": "Épilation intégrale à la cire"
+        },
+        {
+          "id": 25,
+          "name": "Maillot",
+          "price": 100,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/waxbik/400/300",
+          "description": "Épilation cire zone maillot"
+        },
+        {
+          "id": 26,
+          "name": "Jambes Complet",
+          "price": 80,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/waxlegs/400/300",
+          "description": "Épilation complète des jambes"
+        },
+        {
+          "id": 27,
+          "name": "Bras Complet",
+          "price": 60,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/waxarms/400/300",
+          "description": "Épilation complète des bras"
+        },
+        {
+          "id": 28,
+          "name": "Demis Jambes",
+          "price": 60,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/waxhleg/400/300",
+          "description": "Épilation demi-jambes"
+        },
+        {
+          "id": 29,
+          "name": "Bord de Maillot",
+          "price": 60,
+          "duration": "25m",
+          "image": "https://picsum.photos/seed/waxbord/400/300",
+          "description": "Épilation bordure maillot"
+        },
+        {
+          "id": 30,
+          "name": "Visage",
+          "price": 60,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/waxface/400/300",
+          "description": "Épilation complète du visage"
+        },
+        {
+          "id": 31,
+          "name": "Demis Bras",
+          "price": 40,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/waxharm/400/300",
+          "description": "Épilation demi-bras"
+        },
+        {
+          "id": 32,
+          "name": "Sourcils",
+          "price": 30,
+          "duration": "20m",
+          "image": "https://picsum.photos/seed/waxbrow/400/300",
+          "description": "Mise en forme des sourcils"
+        },
+        {
+          "id": 33,
+          "name": "Aisselle",
+          "price": 30,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/waxax/400/300",
+          "description": "Épilation cire des aisselles"
+        },
+        {
+          "id": 34,
+          "name": "Menton",
+          "price": 30,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/waxchin/400/300",
+          "description": "Épilation cire du menton"
+        },
+        {
+          "id": 35,
+          "name": "Duvet",
+          "price": 20,
+          "duration": "10m",
+          "image": "https://picsum.photos/seed/waxduv/400/300",
+          "description": "Épilation du duvet"
+        }
+      ]
+    },
+    {
+      "id": "visage",
+      "name": "Soin Visage",
+      "image": "https://picsum.photos/seed/face33/200/200",
+      "heroImage": "https://picsum.photos/seed/face33/800/1200",
+      "services": [
+        {
+          "id": 36,
+          "name": "Blanchiment Dentaire",
+          "price": 800,
+          "duration": "30m",
+          "image": "https://picsum.photos/seed/teeth/400/300",
+          "description": "Éclaircissement dentaire professionnel à partir de"
+        },
+        {
+          "id": 37,
+          "name": "Soin Hydrafacial Médical",
+          "price": 600,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/hydmed/400/300",
+          "description": "Soin hydrafacial de grade médical à partir de"
+        },
+        {
+          "id": 38,
+          "name": "Soin Éclat",
+          "price": 600,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/eclat/400/300",
+          "description": "Soin luminosité et éclat du teint"
+        },
+        {
+          "id": 39,
+          "name": "Soin Anti Acné",
+          "price": 500,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/antiacne/400/300",
+          "description": "Traitement ciblé contre l'acné"
+        },
+        {
+          "id": 40,
+          "name": "Microneedling",
+          "price": 400,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/micron/400/300",
+          "description": "Stimulation collagène par micro-aiguilles à partir de"
+        },
+        {
+          "id": 41,
+          "name": "Soin Anti Tâche",
+          "price": 400,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/antitache/400/300",
+          "description": "Traitement correcteur des tâches pigmentaires"
+        },
+        {
+          "id": 42,
+          "name": "Hydrafacial Simple",
+          "price": 300,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/hydsimp/400/300",
+          "description": "Soin hydrafacial nettoyant et hydratant"
+        },
+        {
+          "id": 43,
+          "name": "Soin Visage Classique",
+          "price": 250,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/classique/400/300",
+          "description": "Soin complet nettoyage et hydratation"
+        },
+        {
+          "id": 44,
+          "name": "Soin Hydratant",
+          "price": 200,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/hydrat/400/300",
+          "description": "Hydratation en profondeur du visage"
+        }
+      ]
+    },
+    {
+      "id": "onglerie",
+      "name": "Onglerie",
+      "image": "https://picsum.photos/seed/nails22/200/200",
+      "heroImage": "https://picsum.photos/seed/nails22/800/1200",
+      "services": [
+        {
+          "id": 45,
+          "name": "Gel",
+          "price": 300,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/gel/400/300",
+          "description": "Pose complète de gel à partir de"
+        },
+        {
+          "id": 46,
+          "name": "BIAB",
+          "price": 300,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/biab/400/300",
+          "description": "Builder In A Bottle — renforcement naturel à partir de"
+        },
+        {
+          "id": 47,
+          "name": "Remplissage de Gel",
+          "price": 250,
+          "duration": "1h 30m",
+          "image": "https://picsum.photos/seed/rempli/400/300",
+          "description": "Retouche et remplissage gel"
+        },
+        {
+          "id": 48,
+          "name": "Gel Pieds",
+          "price": 250,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/gelpied/400/300",
+          "description": "Pose gel sur les pieds"
+        },
+        {
+          "id": 49,
+          "name": "Faux Ongle Permanent",
+          "price": 250,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/fauxong/400/300",
+          "description": "Extensions d'ongles longue tenue"
+        },
+        {
+          "id": 50,
+          "name": "Pédicure Médical",
+          "price": 250,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/pedmed/400/300",
+          "description": "Soin des pieds médical complet"
+        },
+        {
+          "id": 51,
+          "name": "Vernis Permanent",
+          "price": 150,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/vernperm/400/300",
+          "description": "Vernis semi-permanent longue tenue"
+        },
+        {
+          "id": 52,
+          "name": "Pédicure Spa",
+          "price": 150,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/pedspa/400/300",
+          "description": "Soin pédicure relaxant et complet"
+        },
+        {
+          "id": 53,
+          "name": "Manicure Spa",
+          "price": 100,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/manspa/400/300",
+          "description": "Soin manucure avec massage"
+        },
+        {
+          "id": 54,
+          "name": "Pédicure Normal",
+          "price": 100,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/pednorm/400/300",
+          "description": "Pédicure classique et soignée"
+        },
+        {
+          "id": 55,
+          "name": "Dépose Gel",
+          "price": 100,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/deposegel/400/300",
+          "description": "Retrait gel en douceur"
+        },
+        {
+          "id": 56,
+          "name": "Manicure",
+          "price": 50,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/manu/400/300",
+          "description": "Manucure classique à partir de"
+        },
+        {
+          "id": 57,
+          "name": "Nail Art",
+          "price": 50,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/nailart/400/300",
+          "description": "Décorations et designs personnalisés à partir de"
+        },
+        {
+          "id": 58,
+          "name": "Vernis Normal",
+          "price": 50,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/vernnorm/400/300",
+          "description": "Application vernis classique"
+        },
+        {
+          "id": 59,
+          "name": "Dépose Permanent",
+          "price": 50,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/deposeperm/400/300",
+          "description": "Retrait vernis semi-permanent"
+        }
+      ]
+    },
+    {
+      "id": "hair",
+      "name": "Hair & Styling",
+      "image": "https://picsum.photos/seed/hair11/200/200",
+      "heroImage": "https://picsum.photos/seed/hair11/800/1200",
+      "services": [
+        {
+          "id": 60,
+          "name": "Protéine Black Diamond Gold",
+          "price": 1500,
+          "duration": "3h 15m",
+          "image": "https://picsum.photos/seed/diamondg/400/300",
+          "description": "Soin protéiné premium Diamond Gold à partir de"
+        },
+        {
+          "id": 61,
+          "name": "Protéine Goldery",
+          "price": 1500,
+          "duration": "3h",
+          "image": "https://picsum.photos/seed/goldery/400/300",
+          "description": "Traitement protéiné Goldery luxe à partir de"
+        },
+        {
+          "id": 62,
+          "name": "Protéine Spanish Latté",
+          "price": 1500,
+          "duration": "3h",
+          "image": "https://picsum.photos/seed/splatte/400/300",
+          "description": "Soin protéiné Spanish Latté complet à partir de"
+        },
+        {
+          "id": 63,
+          "name": "Spanish Latté Racine",
+          "price": 1200,
+          "duration": "2h",
+          "image": "https://picsum.photos/seed/splatrac/400/300",
+          "description": "Application racine Spanish Latté à partir de"
+        },
+        {
+          "id": 64,
+          "name": "Balayage",
+          "price": 800,
+          "duration": "4h 30m",
+          "image": "https://picsum.photos/seed/balayage/400/300",
+          "description": "Balayage peint à la main à partir de"
+        },
+        {
+          "id": 65,
+          "name": "Les Mèches",
+          "price": 700,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/meches/400/300",
+          "description": "Mèches et reflets personnalisés"
+        },
+        {
+          "id": 66,
+          "name": "Protéine Black Normal",
+          "price": 700,
+          "duration": "3h 45m",
+          "image": "https://picsum.photos/seed/protnorm/400/300",
+          "description": "Soin protéiné Black classique à partir de"
+        },
+        {
+          "id": 67,
+          "name": "Soin Plasma",
+          "price": 600,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/plasma/400/300",
+          "description": "Traitement capillaire au plasma à partir de"
+        },
+        {
+          "id": 68,
+          "name": "Protéine Racine",
+          "price": 500,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/protrac/400/300",
+          "description": "Application protéine sur racines à partir de"
+        },
+        {
+          "id": 69,
+          "name": "Soin Caviar",
+          "price": 500,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/caviar/400/300",
+          "description": "Soin réparateur au caviar"
+        },
+        {
+          "id": 70,
+          "name": "Coloration Normal",
+          "price": 400,
+          "duration": "1h 15m",
+          "image": "https://picsum.photos/seed/colornorm/400/300",
+          "description": "Coloration complète à partir de"
+        },
+        {
+          "id": 71,
+          "name": "Soin Kevin Murphy",
+          "price": 400,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/kevinm/400/300",
+          "description": "Soin professionnel Kevin Murphy"
+        },
+        {
+          "id": 72,
+          "name": "Soin Nashi",
+          "price": 400,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/nashi/400/300",
+          "description": "Traitement capillaire Nashi Argan à partir de"
+        },
+        {
+          "id": 73,
+          "name": "Soin Olaplex",
+          "price": 350,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/olaplex/400/300",
+          "description": "Réparation moléculaire Olaplex"
+        },
+        {
+          "id": 74,
+          "name": "Chignon",
+          "price": 300,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/chignon/400/300",
+          "description": "Chignon élégant pour événement à partir de"
+        },
+        {
+          "id": 75,
+          "name": "Coloration Racine",
+          "price": 250,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/colorrac/400/300",
+          "description": "Retouche coloration racines à partir de"
+        },
+        {
+          "id": 76,
+          "name": "Soin Hydratant Normal",
+          "price": 250,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/hydnorm/400/300",
+          "description": "Soin hydratation capillaire classique"
+        },
+        {
+          "id": 77,
+          "name": "Coupe",
+          "price": 150,
+          "duration": "45m",
+          "image": "https://picsum.photos/seed/coupe/400/300",
+          "description": "Coupe personnalisée à partir de"
+        },
+        {
+          "id": 78,
+          "name": "Brushing",
+          "price": 50,
+          "duration": "35m",
+          "image": "https://picsum.photos/seed/brushing/400/300",
+          "description": "Brushing professionnel à partir de"
+        },
+        {
+          "id": 79,
+          "name": "Coupe Pointe",
+          "price": 50,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/pointe/400/300",
+          "description": "Rafraîchissement des pointes"
+        },
+        {
+          "id": 80,
+          "name": "Doze Shampoing Nashi",
+          "price": 30,
+          "duration": "20m",
+          "image": "https://picsum.photos/seed/nashishamp/400/300",
+          "description": "Shampoing professionnel Nashi Argan"
+        },
+        {
+          "id": 81,
+          "name": "Coupe Franche",
+          "price": 30,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/franche/400/300",
+          "description": "Coupe franche nette et précise"
+        },
+        {
+          "id": 82,
+          "name": "Extension Stickers",
+          "price": 30,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/extstick/400/300",
+          "description": "Extensions adhésives à partir de"
+        },
+        {
+          "id": 83,
+          "name": "Extension 6D",
+          "price": 20,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/ext6d/400/300",
+          "description": "Extensions 6D ultra-légères à partir de"
+        }
+      ]
+    },
+    {
+      "id": "brows",
+      "name": "Eyebrows & Eyelashes",
+      "image": "https://picsum.photos/seed/brows66/200/200",
+      "heroImage": "https://picsum.photos/seed/brows66/800/1200",
+      "services": [
+        {
+          "id": 84,
+          "name": "Cils Permanent",
+          "price": 400,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/cilsperm/400/300",
+          "description": "Pose de cils permanents à partir de"
+        },
+        {
+          "id": 85,
+          "name": "Brow Lift",
+          "price": 300,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/browlift/400/300",
+          "description": "Restructuration et lamination des sourcils à partir de"
+        },
+        {
+          "id": 86,
+          "name": "Cils Normal",
+          "price": 100,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/cilsnorm/400/300",
+          "description": "Pose de cils classique"
+        },
+        {
+          "id": 87,
+          "name": "Coloration Sourcils",
+          "price": 50,
+          "duration": "1h",
+          "image": "https://picsum.photos/seed/colsourc/400/300",
+          "description": "Teinture professionnelle des sourcils"
+        }
+      ]
+    }
+  ]
+}
