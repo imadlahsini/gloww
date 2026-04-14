@@ -846,10 +846,15 @@ export default function SalonMenu() {
   const touchStartPos = useRef({ x: 0, y: 0 });
   const touchDistRef = useRef(0);
   const DRAG_THRESHOLD = 8; // pixels — below this counts as a tap
+  const pointerIdRef = useRef(null);
+  const capturedRef = useRef(false);
 
   const handlePointerDown = useCallback((e) => {
     const clientX = e.clientX;
     const clientY = e.clientY;
+
+    pointerIdRef.current = e.pointerId;
+    capturedRef.current = false;
 
     // Always start tracking, even on nodes
     isDraggingRef.current = true;
@@ -881,6 +886,10 @@ export default function SalonMenu() {
 
     if (touchDistRef.current > DRAG_THRESHOLD) {
       didDrag.current = true;
+      // Capture after threshold so short taps still fire click on the node
+      if (!capturedRef.current && e.currentTarget && pointerIdRef.current !== null) {
+        try { e.currentTarget.setPointerCapture(pointerIdRef.current); capturedRef.current = true; } catch {}
+      }
     }
 
     const currentAngle = getAngleFromCenter(clientX, clientY);
@@ -931,6 +940,7 @@ export default function SalonMenu() {
   const handlePointerUp = useCallback(() => {
     if (!isDraggingRef.current) return;
     isDraggingRef.current = false;
+    capturedRef.current = false;
 
     const vel = velocityRef.current;
 
@@ -1087,10 +1097,7 @@ export default function SalonMenu() {
           {/* Orbital Container — drag surface */}
           <div
             ref={orbitRef}
-            onPointerDown={(e) => {
-              try { e.currentTarget.setPointerCapture(e.pointerId); } catch {}
-              handlePointerDown(e);
-            }}
+            onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
