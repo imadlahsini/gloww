@@ -518,27 +518,11 @@ function PreviewCard({ category, origin, onConfirm, onDismiss }) {
 }
 
 /* ─── Menu item — scannable, polished ─── */
-function MenuItem({ service, index, onClick }) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
+function MenuItem({ service, onClick }) {
   const [pressed, setPressed] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.unobserve(el); } },
-      { threshold: 0.1, rootMargin: "0px 0px -20px 0px" }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  const delay = index * 0.06;
 
   return (
     <div
-      ref={ref}
       onClick={onClick}
       onMouseDown={() => setPressed(true)}
       onMouseUp={() => setPressed(false)}
@@ -555,16 +539,11 @@ function MenuItem({ service, index, onClick }) {
         background: "rgba(255,255,255,0.04)",
         border: "1px solid rgba(255,255,255,0.06)",
         cursor: "pointer",
-        opacity: visible ? 1 : 0,
-        transform: visible
-          ? (pressed ? "scale(0.98)" : "scale(1)")
-          : "translateY(20px)",
+        transform: pressed ? "scale(0.98)" : "scale(1)",
         boxShadow: pressed
           ? "0 2px 8px rgba(0,0,0,0.3)"
           : "0 4px 20px rgba(0,0,0,0.1)",
-        transition: pressed
-          ? "transform 0.15s ease, box-shadow 0.15s ease"
-          : `transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, opacity 0.5s ease ${delay}s, box-shadow 0.3s ease`,
+        transition: "transform 0.15s ease, box-shadow 0.2s ease",
       }}
     >
       {/* Image */}
@@ -640,32 +619,36 @@ function MenuItem({ service, index, onClick }) {
    ═══════════════════════════════════════════ */
 function ServicesView({ category, isExiting, onBack, onSelectService, backPressed, setBackPressed }) {
   const scrollRef = useRef(null);
-  const [entered, setEntered] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const heroImgRef = useRef(null);
+  const titleRef = useRef(null);
 
   const services = category?.services || [];
   const heroH = 240;
 
-  // Entrance trigger
-  useEffect(() => {
-    const t = setTimeout(() => setEntered(true), 50);
-    return () => clearTimeout(t);
-  }, []);
-
-  // Scroll tracking for parallax
+  // Parallax: rAF + direct DOM writes, no React re-renders on scroll
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    const onScroll = () => setScrollY(el.scrollTop);
+    let raf = 0;
+    const apply = () => {
+      raf = 0;
+      const y = el.scrollTop;
+      const r = Math.min(y / heroH, 1);
+      const imgEl = heroImgRef.current;
+      const titleEl = titleRef.current;
+      if (imgEl) {
+        imgEl.style.transform = `scale(${1.05 + r * 0.1})`;
+        imgEl.style.filter = `brightness(${0.45 - r * 0.2})`;
+      }
+      if (titleEl) {
+        titleEl.style.transform = `translateY(${r * -20}px)`;
+        titleEl.style.opacity = `${Math.max(0, 1 - r * 1.2)}`;
+      }
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(apply); };
     el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
+    return () => { el.removeEventListener("scroll", onScroll); if (raf) cancelAnimationFrame(raf); };
   }, []);
-
-  const scrollRatio = Math.min(scrollY / heroH, 1);
-  const imgScale = 1.05 + scrollRatio * 0.1;
-  const imgBrightness = 0.45 - scrollRatio * 0.2;
-  const titleY = scrollRatio * -20;
-  const titleOpacity = 1 - scrollRatio * 1.2;
 
   return (
     <div style={{
@@ -688,13 +671,11 @@ function ServicesView({ category, isExiting, onBack, onSelectService, backPresse
           height: `${heroH}px`, position: "relative", overflow: "hidden",
         }}>
           {/* Background image — parallax zoom */}
-          <div style={{
+          <div ref={heroImgRef} style={{
             position: "absolute", inset: "-30px",
-            transform: `scale(${imgScale})`,
-            filter: `brightness(${imgBrightness})`,
-            willChange: "transform",
-            opacity: entered ? 1 : 0,
-            transition: "opacity 0.8s ease",
+            transform: "scale(1.05)",
+            filter: "brightness(0.45)",
+            willChange: "transform, filter",
           }}>
             <SafeImage src={category?.heroImage} alt="" />
           </div>
@@ -730,17 +711,15 @@ function ServicesView({ category, isExiting, onBack, onSelectService, backPresse
               display: "flex", alignItems: "center", justifyContent: "center",
               transform: backPressed ? "scale(0.88)" : "scale(1)",
               transition: "transform 0.15s ease",
-              opacity: entered ? 1 : 0,
-              transitionDelay: "0.15s",
             }}
           >←</button>
 
           {/* Title block — bottom of hero */}
-          <div style={{
+          <div ref={titleRef} style={{
             position: "absolute",
             bottom: "24px", left: "20px", right: "20px",
-            transform: `translateY(${titleY}px)`,
-            opacity: Math.max(0, titleOpacity),
+            transform: "translateY(0)",
+            opacity: 1,
             willChange: "transform, opacity",
           }}>
             {/* Category name */}
@@ -750,9 +729,6 @@ function ServicesView({ category, isExiting, onBack, onSelectService, backPresse
               margin: 0,
               letterSpacing: "-1px",
               lineHeight: 1.1,
-              opacity: entered ? 1 : 0,
-              transform: entered ? "translateY(0)" : "translateY(14px)",
-              transition: "all 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
               textShadow: "0 2px 12px rgba(0,0,0,0.3)",
             }}>
               {category?.name}
@@ -765,8 +741,6 @@ function ServicesView({ category, isExiting, onBack, onSelectService, backPresse
               margin: "8px 0 0",
               fontWeight: 500,
               letterSpacing: "0.5px",
-              opacity: entered ? 1 : 0,
-              transition: "opacity 0.6s ease 0.4s",
             }}>
               {services.length} soins
             </p>
@@ -998,12 +972,9 @@ export default function SalonMenu() {
   /* ─── Navigate to category with zoom transition ─── */
   const navigateToCategory = useCallback((categoryId) => {
     setHoveredId(null);
-    setOrbitalExiting(true);
     setAutoRotate(false);
-    setTimeout(() => {
-      setSelectedCategory(categoryId);
-      setOrbitalExiting(false);
-    }, 350);
+    setSelectedCategory(categoryId);
+    setOrbitalExiting(false);
   }, []);
 
   /* ─── Node tap: preview on touch, direct on desktop ─── */
