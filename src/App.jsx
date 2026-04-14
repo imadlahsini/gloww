@@ -848,8 +848,8 @@ export default function SalonMenu() {
   const DRAG_THRESHOLD = 8; // pixels — below this counts as a tap
 
   const handlePointerDown = useCallback((e) => {
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
 
     // Always start tracking, even on nodes
     isDraggingRef.current = true;
@@ -869,10 +869,10 @@ export default function SalonMenu() {
 
   const handlePointerMove = useCallback((e) => {
     if (!isDraggingRef.current) return;
-    e.preventDefault();
+    if (e.cancelable) e.preventDefault();
 
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
 
     // Track total pixel distance to distinguish drag from tap
     const dx = clientX - touchStartPos.current.x;
@@ -949,23 +949,6 @@ export default function SalonMenu() {
       snapToNearest();
     }
   }, [snapToNearest]);
-
-  // Passive:false touch handlers for drag
-  useEffect(() => {
-    const el = orbitRef.current;
-    if (!el) return;
-    const onTouchStart = (e) => {
-      e.preventDefault();
-      handlePointerDown(e);
-    };
-    const onTouchMove = (e) => { if (isDraggingRef.current) handlePointerMove(e); };
-    el.addEventListener("touchstart", onTouchStart, { passive: false });
-    el.addEventListener("touchmove", onTouchMove, { passive: false });
-    return () => {
-      el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("touchmove", onTouchMove);
-    };
-  }, [handlePointerDown, handlePointerMove]);
 
   useEffect(() => { return () => { if (momentumRaf.current) cancelAnimationFrame(momentumRaf.current); }; }, []);
 
@@ -1104,12 +1087,13 @@ export default function SalonMenu() {
           {/* Orbital Container — drag surface */}
           <div
             ref={orbitRef}
-            onMouseDown={handlePointerDown}
-            onMouseMove={handlePointerMove}
-            onMouseUp={handlePointerUp}
-            onMouseLeave={handlePointerUp}
-            onTouchEnd={handlePointerUp}
-            onTouchCancel={handlePointerUp}
+            onPointerDown={(e) => {
+              try { e.currentTarget.setPointerCapture(e.pointerId); } catch {}
+              handlePointerDown(e);
+            }}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
             style={{
               position: "relative",
               width: `${radius * 2 + nodeSize + 100}px`,
