@@ -845,9 +845,10 @@ export default function SalonMenu() {
   // Track touch start position to measure distance traveled
   const touchStartPos = useRef({ x: 0, y: 0 });
   const touchDistRef = useRef(0);
-  const DRAG_THRESHOLD = 8; // pixels — below this counts as a tap
+  const DRAG_THRESHOLD = 12; // pixels — below this counts as a tap
   const pointerIdRef = useRef(null);
   const capturedRef = useRef(false);
+  const lastPointerType = useRef("mouse");
 
   const handlePointerDown = useCallback((e) => {
     const clientX = e.clientX;
@@ -855,6 +856,7 @@ export default function SalonMenu() {
 
     pointerIdRef.current = e.pointerId;
     capturedRef.current = false;
+    lastPointerType.current = e.pointerType || "mouse";
 
     // Always start tracking, even on nodes
     isDraggingRef.current = true;
@@ -1007,7 +1009,7 @@ export default function SalonMenu() {
   /* ─── Node tap: preview on touch, direct on desktop ─── */
   const handleNodeClick = (category, e) => {
     if (didDrag.current) return;
-    if (isTouchDevice.current) {
+    if (lastPointerType.current === "touch" || lastPointerType.current === "pen") {
       // Get the image circle's screen position for animation origin
       const nodeEl = e.currentTarget.querySelector("[data-node-image]") || e.currentTarget;
       const rect = nodeEl.getBoundingClientRect();
