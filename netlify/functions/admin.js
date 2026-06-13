@@ -7,7 +7,7 @@
 // Required Netlify environment variables:
 //   ADMIN_PASSWORD  - password the admin UI logs in with
 //   GITHUB_TOKEN    - GitHub token with Contents read/write on the repo
-//   GITHUB_REPO     - target repo in "owner/name" form (e.g. imadlahsini/gloww)
+//   GITHUB_REPO     - target repo in "owner/name" form
 
 const DATA_PATH = "public/data.json";
 
