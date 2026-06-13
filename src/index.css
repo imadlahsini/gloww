@@ -14,3 +14,32 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Admin login form controls (scoped via class so the public site is untouched) */
+.admin-input,
+.admin-btn {
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.admin-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  opacity: 1; /* override Firefox's reduced default opacity */
+}
+
+.admin-input:-webkit-autofill,
+.admin-input:-webkit-autofill:hover,
+.admin-input:-webkit-autofill:focus,
+.admin-input:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff;
+  caret-color: #fff;
+  transition: background-color 9999s ease-out 0s;
+  -webkit-box-shadow: 0 0 0 1000px rgba(20, 20, 20, 1) inset;
+}
+
+.admin-input:focus-visible,
+.admin-btn:focus-visible {
+  outline: 2px solid #4da3ff; /* visible on both the dark field and the white button */
+  outline-offset: 2px;
+  border-radius: 14px; /* match control radius so the ring hugs them */
+}

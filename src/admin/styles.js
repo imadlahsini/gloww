@@ -101,9 +101,10 @@ export const styles = {
     padding: "12px 18px calc(28px + env(safe-area-inset-bottom, 0px))",
   },
   grabber: { width: "36px", height: "4px", borderRadius: "2px", background: "rgba(255,255,255,0.25)", margin: "0 auto 14px" },
-  label: { display: "block", fontSize: "12px", fontWeight: 600, color: "rgba(255,255,255,0.42)", textTransform: "uppercase", letterSpacing: "0.5px", margin: "14px 0 6px" },
+  label: { display: "block", fontSize: "12px", fontWeight: 600, color: "rgba(255,255,255,0.7)", textTransform: "uppercase", letterSpacing: "0.5px", margin: "14px 0 6px" },
   input: {
     width: "100%",
+    boxSizing: "border-box",
     padding: "14px 14px",
     borderRadius: "14px",
     border: "1px solid rgba(255,255,255,0.12)",
@@ -112,7 +113,7 @@ export const styles = {
     fontSize: "16px",
     outline: "none",
   },
-  primaryBtn: { width: "100%", minHeight: "48px", borderRadius: "14px", border: "none", background: "#fff", color: "#000", fontSize: "15px", fontWeight: 700, cursor: "pointer" },
+  primaryBtn: { width: "100%", boxSizing: "border-box", minHeight: "48px", borderRadius: "14px", border: "none", background: "#fff", color: "#000", fontSize: "15px", fontWeight: 700, cursor: "pointer" },
   dangerBtn: { width: "100%", minHeight: "48px", borderRadius: "14px", border: "1px solid rgba(239,68,68,0.32)", background: "rgba(239,68,68,0.08)", color: "#f87171", fontSize: "15px", fontWeight: 600, cursor: "pointer", marginTop: "14px" },
   chip: { fontSize: "12px", display: "inline-flex", alignItems: "center", gap: "4px" },
   toast: {

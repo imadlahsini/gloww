@@ -10,8 +10,10 @@ export default function LoginScreen({ password, setPassword, onLogin, loggingIn 
         color: "#fff",
         fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif",
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
+        overflowY: "auto",
+        WebkitOverflowScrolling: "touch",
         padding: "calc(24px + env(safe-area-inset-top, 0px)) 20px calc(24px + env(safe-area-inset-bottom, 0px))",
         boxSizing: "border-box",
       }}
@@ -20,6 +22,7 @@ export default function LoginScreen({ password, setPassword, onLogin, loggingIn 
         style={{
           width: "100%",
           maxWidth: "400px",
+          margin: "auto",
           padding: "28px 24px",
           borderRadius: "24px",
           background: "rgba(255,255,255,0.04)",
@@ -35,11 +38,12 @@ export default function LoginScreen({ password, setPassword, onLogin, loggingIn 
           Connectez-vous pour gerer le menu.
         </p>
 
-        <label style={styles.label}>Mot de passe</label>
+        <label htmlFor="admin-password" style={styles.label}>Mot de passe</label>
         <input
+          id="admin-password"
+          className="admin-input"
           type="password"
           value={password}
-          autoFocus
           disabled={loggingIn}
           onChange={(e) => setPassword(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && onLogin()}
@@ -49,14 +53,16 @@ export default function LoginScreen({ password, setPassword, onLogin, loggingIn 
           autoCorrect="off"
           spellCheck={false}
           enterKeyHint="go"
-          style={{ ...styles.input, marginBottom: "16px" }}
+          style={{ ...styles.input, marginBottom: "16px", opacity: loggingIn ? 0.5 : 1, cursor: loggingIn ? "not-allowed" : "text" }}
         />
 
         <button
           type="button"
+          className="admin-btn"
           onClick={onLogin}
           disabled={loggingIn}
-          style={{ ...styles.primaryBtn, minHeight: "52px", opacity: loggingIn ? 0.6 : 1, cursor: loggingIn ? "default" : "pointer" }}
+          aria-busy={loggingIn}
+          style={{ ...styles.primaryBtn, minHeight: "52px", opacity: loggingIn ? 0.45 : 1, cursor: loggingIn ? "not-allowed" : "pointer" }}
         >
           {loggingIn ? "Connexion..." : "Connexion"}
         </button>
