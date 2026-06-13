@@ -1,139 +1,64 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const ADMIN_PASSWORD = "glow2024"; // Change this
-const STORAGE_KEY = "glow-admin-settings";
-const LOCAL_DRAFT_KEY = "glow-admin-local-draft";
-const DEFER_SETUP_KEY = "glow-admin-deferred-setup";
-const EMPTY_SETTINGS = { githubToken: "", repo: "", imgbbKey: "" };
-
-function readStoredSettings() {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (!parsed || typeof parsed !== "object") return null;
-    const normalized = normalizeSettings(parsed);
-    if (!normalized.githubToken || !normalized.repo) return null;
-    return normalized;
-  } catch {
-    return null;
-  }
-}
-
-function normalizeSettings(settings) {
-  return {
-    githubToken: String(settings?.githubToken || "").trim(),
-    repo: String(settings?.repo || "").trim(),
-    imgbbKey: String(settings?.imgbbKey || "").trim(),
-  };
-}
-
-function isRepoFormatValid(repo) {
-  return /^[^\s/]+\/[^\s/]+$/.test(repo);
-}
+const ADMIN_FN = "/.netlify/functions/admin";
+const IMGBB_KEY = import.meta.env.VITE_IMGBB_KEY || "";
 
 function serializeData(data) {
   return JSON.stringify(data, null, 2);
 }
 
-function readDeferredSetup() {
+async function callAdmin(body) {
+  let response;
   try {
-    return localStorage.getItem(DEFER_SETUP_KEY) === "1";
+    response = await fetch(ADMIN_FN, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
   } catch {
-    return false;
+    throw new Error("Connexion au serveur impossible. Reessayez.");
   }
-}
 
-function writeDeferredSetup(value) {
+  let payload = null;
   try {
-    if (value) localStorage.setItem(DEFER_SETUP_KEY, "1");
-    else localStorage.removeItem(DEFER_SETUP_KEY);
+    payload = await response.json();
   } catch {
-    // Ignore localStorage write failures.
+    payload = null;
   }
-}
 
-function readLocalDraft() {
-  try {
-    const raw = localStorage.getItem(LOCAL_DRAFT_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (!parsed || !Array.isArray(parsed.categories)) return null;
-    return parsed;
-  } catch {
-    return null;
+  if (!response.ok) {
+    throw new Error((payload && payload.error) || `Erreur (${response.status})`);
   }
-}
-
-function writeLocalDraft(data) {
-  try {
-    localStorage.setItem(LOCAL_DRAFT_KEY, serializeData(data));
-  } catch {
-    // Ignore localStorage write failures.
+  // The function always answers with JSON { ok: true }. Anything else (e.g. the
+  // SPA fallback page when the function is not deployed) must NOT count as success.
+  if (!payload || payload.ok !== true) {
+    throw new Error("Reponse inattendue du serveur. Verifiez la configuration.");
   }
-}
-
-function clearLocalDraft() {
-  try {
-    localStorage.removeItem(LOCAL_DRAFT_KEY);
-  } catch {
-    // Ignore localStorage write failures.
-  }
-}
-
-function decodeBase64Utf8(value) {
-  const cleaned = String(value || "").replace(/\n/g, "");
-  const binary = atob(cleaned);
-  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-  return new TextDecoder().decode(bytes);
-}
-
-function encodeBase64Utf8(value) {
-  const bytes = new TextEncoder().encode(value);
-  let binary = "";
-  bytes.forEach((byte) => {
-    binary += String.fromCharCode(byte);
-  });
-  return btoa(binary);
+  return payload;
 }
 
 export default function AdminPanel() {
-  const initialSettingsRef = useRef();
-  const initialDeferredSetupRef = useRef();
-  if (initialSettingsRef.current === undefined) {
-    initialSettingsRef.current = readStoredSettings();
-  }
-  if (initialDeferredSetupRef.current === undefined) {
-    initialDeferredSetupRef.current = readDeferredSetup();
-  }
-
   const [authenticated, setAuthenticated] = useState(false);
+  const [loggingIn, setLoggingIn] = useState(false);
   const [password, setPassword] = useState("");
-  const [settings, setSettings] = useState(initialSettingsRef.current);
-  const [deferredSetup, setDeferredSetup] = useState(initialDeferredSetupRef.current);
-  const [settingsOpen, setSettingsOpen] = useState(
-    !initialSettingsRef.current && !initialDeferredSetupRef.current,
-  );
   const [data, setData] = useState(null);
-  const [fileSha, setFileSha] = useState(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [loadError, setLoadError] = useState("");
   const [message, setMessage] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
   const [lastSavedSnapshot, setLastSavedSnapshot] = useState(null);
-  const [publishRequired, setPublishRequired] = useState(false);
   const [view, setView] = useState("categories");
   const [activeCategoryId, setActiveCategoryId] = useState(null);
   const [activeServiceId, setActiveServiceId] = useState(null);
 
   const toastTimerRef = useRef(null);
 
-  const repoSignature = settings ? `${settings.repo}|${settings.githubToken}` : "";
-  const isLocalMode = deferredSetup || !settings;
   const currentCategory = data?.categories.find((category) => category.id === activeCategoryId) || null;
   const currentService = (currentCategory?.services || []).find((service) => service.id === activeServiceId) || null;
   const currentSnapshot = data ? serializeData(data) : "";
   const hasUnsavedChanges = Boolean(data && lastSavedSnapshot !== null && currentSnapshot !== lastSavedSnapshot);
-  const canSave = Boolean(data && !saving && (hasUnsavedChanges || publishRequired));
+  const canSave = Boolean(data && !saving && hasUnsavedChanges);
 
   useEffect(() => {
     return () => {
@@ -164,29 +89,22 @@ export default function AdminPanel() {
   }, [activeCategoryId, activeServiceId, data, view]);
 
   useEffect(() => {
-    if (!authenticated || settingsOpen || data) return;
+    if (!authenticated || data) return;
 
     let cancelled = false;
 
     async function loadData() {
       setLoading(true);
       setLoadError("");
-      setPublishRequired(false);
 
       try {
-        if (isLocalMode) {
-          const { data: nextData } = await fetchLocalAdminData();
-          if (cancelled) return;
-          setData(nextData);
-          setFileSha(null);
-          setLastSavedSnapshot(serializeData(nextData));
-          return;
+        const response = await fetch(`/data.json?${Date.now()}`);
+        if (!response.ok) {
+          throw new Error(`Impossible de charger les donnees (${response.status})`);
         }
-
-        const { data: nextData, sha } = await fetchDataFromGitHub(settings);
+        const nextData = await response.json();
         if (cancelled) return;
         setData(nextData);
-        setFileSha(sha);
         setLastSavedSnapshot(serializeData(nextData));
       } catch (error) {
         if (cancelled) return;
@@ -201,7 +119,7 @@ export default function AdminPanel() {
     return () => {
       cancelled = true;
     };
-  }, [authenticated, data, isLocalMode, repoSignature, reloadKey, settingsOpen]);
+  }, [authenticated, data, reloadKey]);
 
   function showMsg(text, type = "success") {
     if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
@@ -210,23 +128,13 @@ export default function AdminPanel() {
   }
 
   async function handleSave() {
-    if (!data || saving || (!hasUnsavedChanges && !publishRequired)) return;
-
-    if (isLocalMode) {
-      writeLocalDraft(data);
-      setLastSavedSnapshot(currentSnapshot);
-      showMsg("Brouillon local enregistre sur cet appareil.");
-      return;
-    }
+    if (!data || saving || !hasUnsavedChanges) return;
 
     setSaving(true);
     try {
-      const nextSha = await pushDataToGitHub(settings, data, fileSha);
-      setFileSha(nextSha);
+      await callAdmin({ action: "save", password, data });
       setLastSavedSnapshot(currentSnapshot);
-      setPublishRequired(false);
-      clearLocalDraft();
-      showMsg(fileSha ? "Modifications enregistrees." : "Brouillon publie sur GitHub.");
+      showMsg("Modifications enregistrees et publiees.");
     } catch (error) {
       showMsg(`Erreur de sauvegarde: ${error.message}`, "error");
     } finally {
@@ -234,93 +142,23 @@ export default function AdminPanel() {
     }
   }
 
-  function handleLogin() {
-    if (password === ADMIN_PASSWORD) {
+  async function handleLogin() {
+    if (loggingIn || !password) return;
+
+    setLoggingIn(true);
+    try {
+      await callAdmin({ action: "login", password });
       setAuthenticated(true);
-      return;
+    } catch (error) {
+      showMsg(error.message || "Mot de passe incorrect.", "error");
+    } finally {
+      setLoggingIn(false);
     }
-    showMsg("Mot de passe incorrect.", "error");
   }
 
   function handleRetryLoad() {
     setLoadError("");
     setReloadKey((value) => value + 1);
-  }
-
-  function handleOpenSettings() {
-    if (
-      hasUnsavedChanges &&
-      !window.confirm("Vous avez des modifications non enregistrees. Ouvrir les parametres peut interrompre votre session actuelle. Continuer ?")
-    ) {
-      return;
-    }
-    setSettingsOpen(true);
-  }
-
-  function handleCloseSettings() {
-    if (settings || deferredSetup) setSettingsOpen(false);
-  }
-
-  function handleResetSettings() {
-    if (!window.confirm("Supprimer les parametres enregistres sur cet appareil ?")) return;
-
-    localStorage.removeItem(STORAGE_KEY);
-    setSettings(null);
-    setDeferredSetup(true);
-    writeDeferredSetup(true);
-    setSettingsOpen(false);
-    setFileSha(null);
-    setLoadError("");
-    setPublishRequired(false);
-    if (!data) {
-      setLastSavedSnapshot(null);
-      setView("categories");
-      setActiveCategoryId(null);
-      setActiveServiceId(null);
-    }
-    showMsg("Parametres GitHub supprimes. Mode local active.");
-  }
-
-  function handleSettingsSave(nextSettings) {
-    const normalized = normalizeSettings(nextSettings);
-    const previousSignature = settings ? `${settings.repo}|${settings.githubToken}` : "";
-    const nextSignature = `${normalized.repo}|${normalized.githubToken}`;
-    const wasLocalMode = isLocalMode;
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
-    setSettings(normalized);
-    setSettingsOpen(false);
-    setDeferredSetup(false);
-    writeDeferredSetup(false);
-    setLoadError("");
-
-    if (wasLocalMode && data) {
-      setFileSha(null);
-      setPublishRequired(true);
-      showMsg("Connexion enregistree. Sauvegardez pour publier le brouillon.");
-      return;
-    }
-
-    showMsg("Parametres enregistres.");
-
-    if (previousSignature !== nextSignature || !data) {
-      setData(null);
-      setFileSha(null);
-      setLoadError("");
-      setLastSavedSnapshot(null);
-      setPublishRequired(false);
-      setView("categories");
-      setActiveCategoryId(null);
-      setActiveServiceId(null);
-    }
-  }
-
-  function handleSkipSetup() {
-    setDeferredSetup(true);
-    writeDeferredSetup(true);
-    setSettingsOpen(false);
-    setLoadError("");
-    showMsg("Configuration differee. Vous etes en mode local.");
   }
 
   function updateCategory(catId, updates) {
@@ -438,36 +276,21 @@ export default function AdminPanel() {
           password={password}
           setPassword={setPassword}
           onLogin={handleLogin}
-        />
-      );
-    }
-
-    if (settingsOpen) {
-      return (
-        <SettingsScreen
-          initialSettings={settings || EMPTY_SETTINGS}
-          hasSavedSettings={Boolean(settings)}
-          onSave={handleSettingsSave}
-          onCancel={handleCloseSettings}
-          onReset={settings ? handleResetSettings : null}
-          onSkip={handleSkipSetup}
+          loggingIn={loggingIn}
         />
       );
     }
 
     if (loading && !data) {
-      return <LoadingScreen text={isLocalMode ? "Chargement du brouillon local..." : "Connexion a GitHub..."} />;
+      return <LoadingScreen text="Chargement des donnees..." />;
     }
 
     if (loadError && !data) {
       return (
         <ErrorScreen
-          title={isLocalMode ? "Impossible de charger le brouillon local" : "Impossible de charger les donnees"}
+          title="Impossible de charger les donnees"
           description={loadError}
           onRetry={handleRetryLoad}
-          onEditSettings={() => setSettingsOpen(true)}
-          onReset={handleResetSettings}
-          onContinueLocal={!isLocalMode ? handleSkipSetup : null}
         />
       );
     }
@@ -504,15 +327,7 @@ export default function AdminPanel() {
                     : "Modifier categorie"}
             </span>
             <span style={styles.topMeta}>
-              {isLocalMode
-                ? hasUnsavedChanges
-                  ? "Brouillon local modifie"
-                  : "Mode local"
-                : publishRequired
-                  ? "Pret a publier sur GitHub"
-                  : hasUnsavedChanges
-                    ? "Modifications locales"
-                    : "Synchronise avec GitHub"}
+              {hasUnsavedChanges ? "Modifications non enregistrees" : "A jour"}
             </span>
           </div>
 
@@ -526,19 +341,9 @@ export default function AdminPanel() {
               cursor: canSave ? "pointer" : "default",
             }}
           >
-            {saving ? "..." : isLocalMode ? "Sauver local" : publishRequired ? "Publier" : "Sauver"}
+            {saving ? "..." : "Sauver"}
           </button>
         </div>
-
-        {(isLocalMode || publishRequired || hasUnsavedChanges) && (
-          <div style={styles.noticeBar}>
-            {isLocalMode
-              ? "Mode local: vous pouvez configurer GitHub plus tard depuis les parametres. Sauver enregistre un brouillon sur cet appareil."
-              : publishRequired
-                ? "La connexion GitHub est prete. Sauvegardez pour publier le brouillon actuel sur le depot."
-                : "Pensez a sauvegarder avant de quitter cette page."}
-          </div>
-        )}
 
         <div style={styles.content}>
           {view === "categories" && (
@@ -582,7 +387,6 @@ export default function AdminPanel() {
             <EditServiceForm
               service={currentService}
               onChange={(updates) => updateService(currentCategory.id, currentService.id, updates)}
-              settings={settings}
               showMsg={showMsg}
             />
           )}
@@ -592,19 +396,10 @@ export default function AdminPanel() {
               category={currentCategory}
               onChange={(updates) => updateCategory(currentCategory.id, updates)}
               onRemove={() => removeCategory(currentCategory.id)}
-              settings={settings}
               showMsg={showMsg}
             />
           )}
         </div>
-
-        <button
-          type="button"
-          onClick={handleOpenSettings}
-          style={styles.gearBtn}
-        >
-          ⚙
-        </button>
       </div>
     );
   }
@@ -633,7 +428,7 @@ export default function AdminPanel() {
   );
 }
 
-function LoginScreen({ password, setPassword, onLogin }) {
+function LoginScreen({ password, setPassword, onLogin, loggingIn }) {
   return (
     <div style={styles.screenScroller}>
       <div style={styles.authCard}>
@@ -652,230 +447,22 @@ function LoginScreen({ password, setPassword, onLogin }) {
           onKeyDown={(event) => event.key === "Enter" && onLogin()}
           style={styles.input}
           autoFocus
+          disabled={loggingIn}
         />
 
-        <button type="button" onClick={onLogin} style={styles.primaryBtn}>
-          Connexion
+        <button
+          type="button"
+          onClick={onLogin}
+          disabled={loggingIn}
+          style={{
+            ...styles.primaryBtn,
+            opacity: loggingIn ? 0.6 : 1,
+            cursor: loggingIn ? "default" : "pointer",
+          }}
+        >
+          {loggingIn ? "Connexion..." : "Connexion"}
         </button>
       </div>
-    </div>
-  );
-}
-
-function SettingsScreen({ initialSettings, hasSavedSettings, onSave, onCancel, onReset, onSkip }) {
-  const [form, setForm] = useState(() => ({ ...EMPTY_SETTINGS, ...initialSettings }));
-  const [showToken, setShowToken] = useState(false);
-  const [showImgbb, setShowImgbb] = useState(false);
-  const [testing, setTesting] = useState(false);
-  const [testResult, setTestResult] = useState(null);
-
-  useEffect(() => {
-    setForm({ ...EMPTY_SETTINGS, ...initialSettings });
-    setTestResult(null);
-  }, [initialSettings]);
-
-  const normalized = normalizeSettings(form);
-  const canSave = Boolean(normalized.githubToken && isRepoFormatValid(normalized.repo));
-
-  async function handleTestConnection() {
-    if (!canSave) {
-      setTestResult({
-        type: "error",
-        text: "Renseignez un token GitHub et un depot au format owner/repo.",
-      });
-      return;
-    }
-
-    setTesting(true);
-    setTestResult(null);
-
-    try {
-      await fetchDataFromGitHub(normalized);
-      setTestResult({
-        type: "success",
-        text: "Connexion valide. public/data.json est accessible.",
-      });
-    } catch (error) {
-      setTestResult({
-        type: "error",
-        text: error.message,
-      });
-    } finally {
-      setTesting(false);
-    }
-  }
-
-  return (
-    <div style={styles.screenScroller}>
-      <div style={styles.settingsHeader}>
-        <div>
-          <span style={styles.eyebrow}>Parametres admin</span>
-          <h2 style={styles.screenTitle}>Connexion et securite</h2>
-          <p style={styles.screenText}>
-            Cette page reste volontairement simple: on valide d'abord la connexion, puis on revient a l'edition.
-          </p>
-        </div>
-
-        {hasSavedSettings && (
-          <button type="button" onClick={onCancel} style={styles.secondaryBtn}>
-            Retour
-          </button>
-        )}
-      </div>
-
-      <div style={styles.settingsGrid}>
-        <div style={styles.card}>
-          <div style={styles.cardHeader}>
-            <div>
-              <h3 style={styles.cardTitle}>GitHub</h3>
-              <p style={styles.cardText}>
-                Le token doit avoir la permission Contents read/write sur le depot cible.
-              </p>
-            </div>
-          </div>
-
-          <label style={styles.label}>Token GitHub</label>
-          <SecretField
-            value={form.githubToken}
-            visible={showToken}
-            placeholder="ghp_xxxxxxxxxxxx"
-            onToggleVisibility={() => setShowToken((value) => !value)}
-            onChange={(value) => {
-              setForm((prev) => ({ ...prev, githubToken: value }));
-              setTestResult(null);
-            }}
-          />
-
-          <label style={styles.label}>Depot</label>
-          <input
-            value={form.repo}
-            onChange={(event) => {
-              setForm((prev) => ({ ...prev, repo: event.target.value }));
-              setTestResult(null);
-            }}
-            placeholder="username/glow-beauty"
-            style={styles.input}
-            spellCheck={false}
-            autoCapitalize="none"
-            autoCorrect="off"
-          />
-
-          <div style={styles.inlineActions}>
-            <button
-              type="button"
-              onClick={handleTestConnection}
-              disabled={testing}
-              style={{
-                ...styles.secondaryBtn,
-                opacity: testing ? 0.5 : 1,
-                cursor: testing ? "default" : "pointer",
-              }}
-            >
-              {testing ? "Test..." : "Tester la connexion"}
-            </button>
-          </div>
-
-          {testResult && (
-            <div
-              style={{
-                ...styles.inlineStatus,
-                borderColor: testResult.type === "error" ? "rgba(220,38,38,0.35)" : "rgba(34,197,94,0.28)",
-                background: testResult.type === "error" ? "rgba(220,38,38,0.08)" : "rgba(34,197,94,0.08)",
-              }}
-            >
-              {testResult.text}
-            </div>
-          )}
-        </div>
-
-        <div style={styles.card}>
-          <div style={styles.cardHeader}>
-            <div>
-              <h3 style={styles.cardTitle}>Images</h3>
-              <p style={styles.cardText}>
-                Facultatif. Sert uniquement pour envoyer des images dans l'admin.
-              </p>
-            </div>
-          </div>
-
-          <label style={styles.label}>Cle ImgBB</label>
-          <SecretField
-            value={form.imgbbKey}
-            visible={showImgbb}
-            placeholder="Optionnel"
-            onToggleVisibility={() => setShowImgbb((value) => !value)}
-            onChange={(value) => setForm((prev) => ({ ...prev, imgbbKey: value }))}
-          />
-
-          <div style={styles.infoPanel}>
-            Les parametres restent stockes localement sur cet appareil pour eviter de les re-saisir a chaque session.
-          </div>
-        </div>
-
-        <div style={styles.card}>
-          <div style={styles.cardHeader}>
-            <div>
-              <h3 style={styles.cardTitle}>Actions</h3>
-              <p style={styles.cardText}>
-                On garde les changements isoles ici pour ne pas casser l'ecran principal.
-              </p>
-            </div>
-          </div>
-
-          <div style={styles.actionStack}>
-            <button
-              type="button"
-              onClick={() => canSave && onSave(normalized)}
-              disabled={!canSave}
-              style={{
-                ...styles.primaryBtn,
-                opacity: canSave ? 1 : 0.45,
-                cursor: canSave ? "pointer" : "default",
-              }}
-            >
-              Enregistrer et continuer
-            </button>
-
-            {hasSavedSettings && (
-              <button type="button" onClick={onCancel} style={styles.secondaryBtnFull}>
-                Fermer sans modifier
-              </button>
-            )}
-
-            {onSkip && (
-              <button type="button" onClick={onSkip} style={styles.secondaryBtnFull}>
-                {hasSavedSettings ? "Continuer en mode local" : "Configurer plus tard"}
-              </button>
-            )}
-
-            {onReset && (
-              <button type="button" onClick={onReset} style={styles.dangerBtn}>
-                Supprimer les parametres locaux
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SecretField({ value, visible, placeholder, onToggleVisibility, onChange }) {
-  return (
-    <div style={styles.secretField}>
-      <input
-        type={visible ? "text" : "password"}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        placeholder={placeholder}
-        style={{ ...styles.input, marginBottom: 0, paddingRight: "92px" }}
-        spellCheck={false}
-        autoCapitalize="none"
-        autoCorrect="off"
-      />
-      <button type="button" onClick={onToggleVisibility} style={styles.revealBtn}>
-        {visible ? "Masquer" : "Afficher"}
-      </button>
     </div>
   );
 }
@@ -900,20 +487,26 @@ function ErrorScreen({ title, description, onRetry, onEditSettings, onReset, onC
         <p style={styles.statusText}>{description}</p>
 
         <div style={styles.statusActions}>
-          <button type="button" onClick={onRetry} style={styles.primaryBtn}>
-            Reessayer
-          </button>
-          <button type="button" onClick={onEditSettings} style={styles.secondaryBtnFull}>
-            Modifier les parametres
-          </button>
+          {onRetry && (
+            <button type="button" onClick={onRetry} style={styles.primaryBtn}>
+              Reessayer
+            </button>
+          )}
+          {onEditSettings && (
+            <button type="button" onClick={onEditSettings} style={styles.secondaryBtnFull}>
+              Modifier les parametres
+            </button>
+          )}
           {onContinueLocal && (
             <button type="button" onClick={onContinueLocal} style={styles.secondaryBtnFull}>
               Continuer en mode local
             </button>
           )}
-          <button type="button" onClick={onReset} style={styles.dangerBtn}>
-            Reinitialiser
-          </button>
+          {onReset && (
+            <button type="button" onClick={onReset} style={styles.dangerBtn}>
+              Reinitialiser
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -1041,19 +634,21 @@ function ServiceList({ category, onToggle, onTap, onAdd, onRemove }) {
   );
 }
 
-function EditServiceForm({ service, onChange, settings, showMsg }) {
+function EditServiceForm({ service, onChange, showMsg }) {
   const [uploading, setUploading] = useState(false);
 
   async function handleImageUpload(event) {
     const file = event.target.files?.[0];
-    if (!file || !settings.imgbbKey) {
-      if (!settings.imgbbKey) showMsg("Configurez d'abord la cle ImgBB.", "error");
+    if (!file) return;
+    if (!IMGBB_KEY) {
+      showMsg("Upload d'image non active. Collez une URL d'image ci-dessous.", "error");
+      event.target.value = "";
       return;
     }
 
     setUploading(true);
     try {
-      const url = await uploadToImgBB(file, settings.imgbbKey);
+      const url = await uploadToImgBB(file, IMGBB_KEY);
       onChange({ image: url });
       showMsg("Image mise a jour.");
     } catch (error) {
@@ -1129,19 +724,21 @@ function EditServiceForm({ service, onChange, settings, showMsg }) {
   );
 }
 
-function EditCategoryForm({ category, onChange, onRemove, settings, showMsg }) {
+function EditCategoryForm({ category, onChange, onRemove, showMsg }) {
   const [uploading, setUploading] = useState(false);
 
   async function handleImageUpload(event, field) {
     const file = event.target.files?.[0];
-    if (!file || !settings.imgbbKey) {
-      if (!settings.imgbbKey) showMsg("Configurez d'abord la cle ImgBB.", "error");
+    if (!file) return;
+    if (!IMGBB_KEY) {
+      showMsg("Upload d'image non active. Collez une URL d'image ci-dessous.", "error");
+      event.target.value = "";
       return;
     }
 
     setUploading(true);
     try {
-      const url = await uploadToImgBB(file, settings.imgbbKey);
+      const url = await uploadToImgBB(file, IMGBB_KEY);
       onChange({ [field]: url });
       showMsg("Image mise a jour.");
     } catch (error) {
@@ -1257,75 +854,6 @@ function ToggleSwitch({ value, onChange }) {
   );
 }
 
-async function fetchDataFromGitHub(settings) {
-  const response = await fetch(
-    `https://api.github.com/repos/${settings.repo}/contents/public/data.json`,
-    {
-      headers: {
-        Authorization: `token ${settings.githubToken}`,
-        Accept: "application/vnd.github+json",
-      },
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(await readGitHubError(response, "Impossible de charger data.json"));
-  }
-
-  const json = await response.json();
-  const content = decodeBase64Utf8(json.content);
-  return { data: JSON.parse(content), sha: json.sha };
-}
-
-async function fetchLocalAdminData() {
-  const draft = readLocalDraft();
-  if (draft) return { data: draft, sha: null };
-
-  const response = await fetch(`/data.json?${Date.now()}`);
-  if (!response.ok) {
-    throw new Error(`Impossible de charger le brouillon local (${response.status})`);
-  }
-
-  return { data: await response.json(), sha: null };
-}
-
-async function pushDataToGitHub(settings, data, sha) {
-  const content = encodeBase64Utf8(serializeData(data));
-  const response = await fetch(
-    `https://api.github.com/repos/${settings.repo}/contents/public/data.json`,
-    {
-      method: "PUT",
-      headers: {
-        Authorization: `token ${settings.githubToken}`,
-        "Content-Type": "application/json",
-        Accept: "application/vnd.github+json",
-      },
-      body: JSON.stringify({
-        message: "Update salon data via admin",
-        content,
-        ...(sha ? { sha } : {}),
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(await readGitHubError(response, "Impossible de sauvegarder"));
-  }
-
-  const json = await response.json();
-  return json.content.sha;
-}
-
-async function readGitHubError(response, fallback) {
-  try {
-    const json = await response.json();
-    if (json?.message) return `${fallback} (${response.status}): ${json.message}`;
-  } catch {
-    return `${fallback} (${response.status})`;
-  }
-  return `${fallback} (${response.status})`;
-}
-
 async function uploadToImgBB(file, apiKey) {
   const formData = new FormData();
   formData.append("image", file);
@@ -1390,45 +918,12 @@ const styles = {
     color: "rgba(255,255,255,0.58)",
     marginBottom: "24px",
   },
-  settingsHeader: {
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    gap: "16px",
-    width: "min(100%, 920px)",
-    margin: "0 auto 18px",
-  },
-  screenTitle: {
-    fontSize: "28px",
-    lineHeight: 1.1,
-    margin: 0,
-  },
-  screenText: {
-    fontSize: "14px",
-    color: "rgba(255,255,255,0.58)",
-    lineHeight: 1.6,
-    marginTop: "10px",
-    maxWidth: "620px",
-  },
-  settingsGrid: {
-    width: "min(100%, 920px)",
-    margin: "0 auto",
-    display: "grid",
-    gap: "16px",
-  },
   card: {
     padding: "20px",
     borderRadius: "22px",
     background: "rgba(255,255,255,0.04)",
     border: "1px solid rgba(255,255,255,0.08)",
     boxShadow: "0 14px 40px rgba(0,0,0,0.2)",
-  },
-  cardHeader: {
-    marginBottom: "16px",
-  },
-  cardTitle: {
-    fontSize: "18px",
-    margin: 0,
   },
   cardText: {
     fontSize: "13px",
@@ -1470,24 +965,6 @@ const styles = {
     minHeight: "112px",
     fontFamily: "inherit",
   },
-  secretField: {
-    position: "relative",
-    marginBottom: "16px",
-  },
-  revealBtn: {
-    position: "absolute",
-    top: "50%",
-    right: "10px",
-    transform: "translateY(-50%)",
-    minWidth: "74px",
-    height: "36px",
-    borderRadius: "12px",
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "rgba(255,255,255,0.06)",
-    color: "#fff",
-    fontSize: "13px",
-    cursor: "pointer",
-  },
   primaryBtn: {
     width: "100%",
     minHeight: "48px",
@@ -1498,17 +975,6 @@ const styles = {
     color: "#000",
     fontSize: "15px",
     fontWeight: 700,
-    cursor: "pointer",
-  },
-  secondaryBtn: {
-    minHeight: "44px",
-    padding: "12px 16px",
-    borderRadius: "14px",
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "rgba(255,255,255,0.04)",
-    color: "#fff",
-    fontSize: "14px",
-    fontWeight: 600,
     cursor: "pointer",
   },
   secondaryBtnFull: {
@@ -1522,33 +988,6 @@ const styles = {
     fontSize: "15px",
     fontWeight: 600,
     cursor: "pointer",
-  },
-  inlineActions: {
-    display: "flex",
-    justifyContent: "flex-start",
-    marginBottom: "4px",
-  },
-  inlineStatus: {
-    marginTop: "10px",
-    padding: "12px 14px",
-    borderRadius: "14px",
-    border: "1px solid rgba(255,255,255,0.08)",
-    fontSize: "13px",
-    lineHeight: 1.5,
-    color: "rgba(255,255,255,0.82)",
-  },
-  infoPanel: {
-    padding: "14px",
-    borderRadius: "16px",
-    background: "rgba(255,255,255,0.04)",
-    border: "1px solid rgba(255,255,255,0.08)",
-    fontSize: "13px",
-    lineHeight: 1.6,
-    color: "rgba(255,255,255,0.62)",
-  },
-  actionStack: {
-    display: "grid",
-    gap: "12px",
   },
   statusScreen: {
     height: "100%",
@@ -1660,13 +1099,6 @@ const styles = {
     fontSize: "14px",
     fontWeight: 700,
     flexShrink: 0,
-  },
-  noticeBar: {
-    padding: "10px 16px",
-    background: "rgba(249,115,22,0.1)",
-    borderBottom: "1px solid rgba(249,115,22,0.2)",
-    color: "#fdba74",
-    fontSize: "13px",
   },
   content: {
     flex: 1,
@@ -1891,24 +1323,6 @@ const styles = {
     height: "100%",
     objectFit: "cover",
     filter: "brightness(0.6)",
-  },
-  gearBtn: {
-    position: "fixed",
-    right: "16px",
-    bottom: "max(16px, env(safe-area-inset-bottom, 0px) + 8px)",
-    width: "48px",
-    height: "48px",
-    borderRadius: "50%",
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "rgba(0,0,0,0.82)",
-    color: "rgba(255,255,255,0.7)",
-    fontSize: "20px",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backdropFilter: "blur(12px)",
-    zIndex: 25,
   },
   toast: {
     position: "fixed",
