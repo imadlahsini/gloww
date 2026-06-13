@@ -45,15 +45,6 @@
           "duration": "30m",
           "image": "https://picsum.photos/seed/detoxspa/400/300",
           "description": "Purification et détoxification du cuir chevelu"
-        },
-        {
-          "id": 88,
-          "name": "Nouveau soin",
-          "price": 0,
-          "duration": "1h",
-          "image": "",
-          "description": "",
-          "visible": true
         }
       ],
       "visible": true
