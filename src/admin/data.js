@@ -1,7 +1,3 @@
-export function serializeData(data) {
-  return JSON.stringify(data, null, 2);
-}
-
 export function nextServiceId(data) {
   const ids = data.categories.flatMap((c) => (c.services || []).map((s) => s.id));
   return ids.length ? Math.max(...ids) + 1 : 1;

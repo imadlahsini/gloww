@@ -16,7 +16,12 @@ export default function DetailSheet({ target, onChange, onDelete, onClose }) {
           <input style={styles.input} value={s.name} onChange={(e) => onChange({ name: e.target.value })} />
           <label style={styles.label}>Prix (DH)</label>
           <input style={styles.input} type="number" inputMode="numeric" value={s.price}
-            onChange={(e) => onChange({ price: e.target.value === "" ? 0 : Number(e.target.value) })} />
+            onChange={(e) => {
+              const raw = e.target.value;
+              if (raw === "") return onChange({ price: 0 });
+              const n = Number(raw);
+              if (Number.isFinite(n)) onChange({ price: n });
+            }} />
           <label style={styles.label}>Durée</label>
           <input style={styles.input} value={s.duration} onChange={(e) => onChange({ duration: e.target.value })} />
           <label style={styles.label}>Description</label>

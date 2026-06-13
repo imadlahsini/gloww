@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import {
-  serializeData,
   nextServiceId,
   updateService,
   addService,
@@ -34,12 +33,6 @@ const sample = () => ({
       services: [{ id: 5, name: "Colombien", price: 150, duration: "1h", image: "z", description: "", visible: true }],
     },
   ],
-});
-
-describe("serializeData", () => {
-  it("is stable and pretty-printed", () => {
-    expect(serializeData(sample())).toBe(JSON.stringify(sample(), null, 2));
-  });
 });
 
 describe("nextServiceId", () => {
