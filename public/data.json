@@ -47,7 +47,7 @@
           "description": "Purification et détoxification du cuir chevelu"
         }
       ],
-      "visible": false
+      "visible": true
     },
     {
       "id": "lifting",
