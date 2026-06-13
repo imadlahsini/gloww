@@ -54,6 +54,15 @@
           "image": "",
           "description": "",
           "visible": true
+        },
+        {
+          "id": 89,
+          "name": "Nouveau soin",
+          "price": 0,
+          "duration": "1h",
+          "image": "",
+          "description": "",
+          "visible": true
         }
       ],
       "visible": true
