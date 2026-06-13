@@ -1,6 +1,9 @@
 export const styles = {
   container: {
+    height: "100dvh",
     minHeight: "100dvh",
+    overflowY: "auto",
+    WebkitOverflowScrolling: "touch",
     background: "#000",
     color: "#fff",
     fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif",
