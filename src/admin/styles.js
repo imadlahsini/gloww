@@ -43,12 +43,11 @@ export const styles = {
   catHeader: {
     display: "flex",
     alignItems: "center",
-    gap: "8px",
-    padding: "10px 16px 6px",
-    color: "rgba(255,255,255,0.5)",
-    fontSize: "12px",
-    letterSpacing: "0.5px",
-    textTransform: "uppercase",
+    gap: "10px",
+    padding: "22px 16px 8px",
+    color: "#fff",
+    fontSize: "17px",
+    fontWeight: 700,
   },
   row: {
     display: "flex",
