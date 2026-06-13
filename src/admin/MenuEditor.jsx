@@ -13,6 +13,8 @@ export default function MenuEditor({ initialData, password }) {
   const [query, setQuery] = useState("");
   const [collapsed, setCollapsed] = useState({});
   const [target, setTarget] = useState(null); // {type, catId, serviceId} reference
+  const [newItem, setNewItem] = useState(null); // a just-added item not yet kept
+  const [newItemTouched, setNewItemTouched] = useState(false);
   const [undoVisible, setUndoVisible] = useState(false);
   const undoTimerRef = useRef(null);
   useEffect(() => () => { if (undoTimerRef.current) clearTimeout(undoTimerRef.current); }, []);
@@ -24,11 +26,45 @@ export default function MenuEditor({ initialData, password }) {
     undoTimerRef.current = setTimeout(() => setUndoVisible(false), 5000);
   }
 
+  // A field edit inside a sheet. Marks a freshly-added item as "kept".
+  function editTarget(fn) {
+    if (newItem) setNewItemTouched(true);
+    applyMutation(fn);
+  }
+
+  function clearNewItem() {
+    setNewItem(null);
+    setNewItemTouched(false);
+  }
+
   const view = D.filterData(data, query);
 
   function openService(catId, serviceId) { setTarget({ type: "service", catId, serviceId }); }
   function openCategory(catId) { setTarget({ type: "category", catId }); }
-  function closeSheet() { setTarget(null); }
+
+  // Closing the sheet discards a just-added item the user never filled in.
+  function closeSheet() {
+    if (newItem && !newItemTouched) {
+      if (newItem.type === "service") {
+        applyMutation((d) => D.removeService(d, newItem.catId, newItem.serviceId));
+      } else {
+        applyMutation((d) => D.removeCategory(d, newItem.catId));
+      }
+    }
+    clearNewItem();
+    setTarget(null);
+  }
+
+  function deleteTarget() {
+    if (!target) return;
+    if (target.type === "service") {
+      applyMutation((d) => D.removeService(d, target.catId, target.serviceId));
+    } else {
+      applyMutation((d) => D.removeCategory(d, target.catId));
+    }
+    clearNewItem();
+    setTarget(null);
+  }
 
   const liveCategory = target ? data.categories.find((c) => c.id === target.catId) : null;
   const liveService = target?.type === "service" && liveCategory ? (liveCategory.services || []).find((s) => s.id === target.serviceId) : null;
@@ -37,12 +73,16 @@ export default function MenuEditor({ initialData, password }) {
     const id = D.nextServiceId(data);
     const service = { id, name: "Nouveau soin", price: 0, duration: "1h", image: "", description: "", visible: true };
     applyMutation((d) => D.addService(d, catId, service));
+    setNewItem({ type: "service", catId, serviceId: id });
+    setNewItemTouched(false);
     setTarget({ type: "service", catId, serviceId: id });
   }
 
   function addCategory() {
     const id = `cat-${Date.now()}`;
     applyMutation((d) => D.addCategory(d, { id, name: "Nouvelle catégorie", image: "", heroImage: "", visible: true, services: [] }));
+    setNewItem({ type: "category", catId: id });
+    setNewItemTouched(false);
     setTarget({ type: "category", catId: id });
   }
 
@@ -91,16 +131,16 @@ export default function MenuEditor({ initialData, password }) {
       {target?.type === "service" && liveService && (
         <DetailSheet
           target={{ type: "service", service: liveService }}
-          onChange={(updates) => applyMutation((d) => D.updateService(d, target.catId, target.serviceId, updates))}
-          onDelete={() => { applyMutation((d) => D.removeService(d, target.catId, target.serviceId)); closeSheet(); }}
+          onChange={(updates) => editTarget((d) => D.updateService(d, target.catId, target.serviceId, updates))}
+          onDelete={deleteTarget}
           onClose={closeSheet}
         />
       )}
       {target?.type === "category" && liveCategory && (
         <DetailSheet
           target={{ type: "category", category: liveCategory }}
-          onChange={(updates) => applyMutation((d) => D.updateCategory(d, target.catId, updates))}
-          onDelete={() => { applyMutation((d) => D.removeCategory(d, target.catId)); closeSheet(); }}
+          onChange={(updates) => editTarget((d) => D.updateCategory(d, target.catId, updates))}
+          onDelete={deleteTarget}
           onClose={closeSheet}
         />
       )}
