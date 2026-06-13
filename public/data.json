@@ -46,7 +46,8 @@
           "image": "https://picsum.photos/seed/detoxspa/400/300",
           "description": "Purification et détoxification du cuir chevelu"
         }
-      ]
+      ],
+      "visible": false
     },
     {
       "id": "lifting",
