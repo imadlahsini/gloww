@@ -132,6 +132,7 @@ export default function MenuEditor({ initialData, password }) {
         <DetailSheet
           target={{ type: "service", service: liveService }}
           onChange={(updates) => editTarget((d) => D.updateService(d, target.catId, target.serviceId, updates))}
+          onSetImages={(imgs) => editTarget((d) => D.setServiceImages(d, target.catId, target.serviceId, imgs))}
           onDelete={deleteTarget}
           onClose={closeSheet}
         />
