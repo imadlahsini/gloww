@@ -12,7 +12,11 @@
           "price": 600,
           "duration": "1h",
           "image": "https://picsum.photos/seed/royalespa/400/300",
-          "description": "Notre soin signature le plus complet pour le cuir chevelu"
+          "description": "Notre soin signature le plus complet pour le cuir chevelu",
+          "images": [
+            "https://picsum.photos/seed/royalespa/400/300",
+            "https://picsum.photos/seed/galtest/800/600"
+          ]
         },
         {
           "id": 2,
