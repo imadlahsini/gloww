@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { galleryImages } from "./admin/data.js";
 
 /* ─── Data loading — fetches from data.json, filters hidden items ─── */
 let salonData = { categories: [] };
@@ -52,7 +53,7 @@ function useResponsiveRadius() {
 
 /* ─── Safe image with loading/error states ─── */
 function SafeImage({ src, alt, style, ...props }) {
-  const [status, setStatus] = useState("loading");
+  const [status, setStatus] = useState(src ? "loading" : "error");
   return (
     <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", ...style }}>
       {status === "loading" && (
@@ -90,22 +91,11 @@ function SafeImage({ src, alt, style, ...props }) {
   );
 }
 
-/* ─── Generate image variants from a service's seed URL ─── */
-function getServiceImages(imageUrl, count = 4) {
-  // Extract seed from URL like "https://picsum.photos/seed/royalespa/400/300"
-  const match = imageUrl.match(/\/seed\/([^/]+)\//);
-  if (!match) return [imageUrl];
-  const baseSeed = match[1];
-  return Array.from({ length: count }, (_, i) =>
-    imageUrl.replace(`/seed/${baseSeed}/`, `/seed/${baseSeed}${i === 0 ? "" : "v" + (i + 1)}/`)
-  );
-}
-
 /* ─── Stories-style service viewer ─── */
 const STORY_DURATION = 5000;
 
 function StoryViewer({ service, categoryName, onClose }) {
-  const images = getServiceImages(service.image, 4);
+  const images = galleryImages(service);
   const count = images.length;
 
   const [current, setCurrent] = useState(0);
@@ -134,6 +124,7 @@ function StoryViewer({ service, categoryName, onClose }) {
 
   // Progress animation loop — reads drag/dismiss from refs, not deps
   useEffect(() => {
+    if (count === 0) { setProgress(0); return; }
     startTimeRef.current = Date.now();
     setProgress(0);
     let pausedAt = 0;
@@ -305,15 +296,14 @@ function StoryViewer({ service, categoryName, onClose }) {
           opacity: transitioning ? 0.6 : 1,
           transition: "opacity 0.15s ease",
         }}>
-          <img
-            src={images[current]}
-            alt=""
-            style={{
+          {images[current] ? (
+            <SafeImage key={images[current]} src={images[current]} alt={service.name} />
+          ) : (
+            <div style={{
               width: "100%", height: "100%",
-              objectFit: "cover", objectPosition: "center",
-              display: "block",
-            }}
-          />
+              background: "linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03))",
+            }} />
+          )}
         </div>
 
         {/* ── Bottom gradient ── */}
@@ -375,16 +365,18 @@ function StoryViewer({ service, categoryName, onClose }) {
           </p>
 
           {/* Image counter */}
-          <span style={{
-            fontSize: "12px", color: "rgba(255,255,255,0.3)", fontWeight: 500,
-            letterSpacing: "1px",
-          }}>
-            {String(current + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
-          </span>
+          {count > 1 && (
+            <span style={{
+              fontSize: "12px", color: "rgba(255,255,255,0.3)", fontWeight: 500,
+              letterSpacing: "1px",
+            }}>
+              {String(current + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
+            </span>
+          )}
         </div>
 
         {/* ── Tap zone hints (shown briefly on open) ── */}
-        <TapHints />
+        {count > 1 && <TapHints />}
       </div>
     </div>
   );
@@ -1230,6 +1222,7 @@ export default function SalonMenu() {
       {/* ════════ Service Detail — Stories Viewer ════════ */}
       {selectedService && (
         <StoryViewer
+          key={selectedService.id}
           service={selectedService}
           categoryName={currentCategory?.name}
           onClose={() => setSelectedService(null)}

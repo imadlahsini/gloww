@@ -32,6 +32,23 @@ export function removeService(data, catId, serviceId) {
   };
 }
 
+// Derived story gallery; legacy fallback to [image]. Shared with the public viewer.
+export function galleryImages(service) {
+  const imgs = (Array.isArray(service?.images) ? service.images : []).filter(Boolean);
+  return imgs.length ? imgs : service?.image ? [service.image] : [];
+}
+
+// The ONLY writer for a service's gallery. Enforces both invariants in one place:
+// image === images[0], and images is omitted (not []) when there are 0 or 1 photos.
+export function setServiceImages(data, catId, serviceId, images) {
+  const clean = (images || []).filter(Boolean);
+  const updates =
+    clean.length >= 2
+      ? { image: clean[0], images: clean }
+      : { image: clean[0] || "", images: undefined };
+  return updateService(data, catId, serviceId, updates);
+}
+
 export function updateCategory(data, catId, updates) {
   return {
     ...data,

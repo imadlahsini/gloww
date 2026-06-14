@@ -4,6 +4,8 @@ import {
   updateService,
   addService,
   removeService,
+  galleryImages,
+  setServiceImages,
   updateCategory,
   addCategory,
   removeCategory,
@@ -105,5 +107,56 @@ describe("filterData", () => {
     expect(out.categories).toHaveLength(1);
     expect(out.categories[0].id).toBe("lifting");
     expect(out.categories[0].services).toHaveLength(1);
+  });
+});
+
+describe("galleryImages", () => {
+  it("falls back to [image] for a legacy service with no images", () => {
+    expect(galleryImages({ image: "x" })).toEqual(["x"]);
+  });
+  it("returns the images array when present", () => {
+    expect(galleryImages({ image: "a", images: ["a", "b"] })).toEqual(["a", "b"]);
+  });
+  it("returns [] when neither image nor images exists", () => {
+    expect(galleryImages({})).toEqual([]);
+  });
+});
+
+describe("setServiceImages", () => {
+  // assert on the serialized form, which is what actually persists (drops images:undefined)
+  const persistedService = (data) => JSON.parse(JSON.stringify(data)).categories[0].services[0];
+
+  it("with 2+ photos sets image=images[0] and keeps the array", () => {
+    const s = persistedService(setServiceImages(sample(), "head-spa", 1, ["a", "b", "c"]));
+    expect(s.image).toBe("a");
+    expect(s.images).toEqual(["a", "b", "c"]);
+  });
+  it("with exactly 1 photo sets image and omits the images key", () => {
+    const s = persistedService(setServiceImages(sample(), "head-spa", 1, ["only"]));
+    expect(s.image).toBe("only");
+    expect("images" in s).toBe(false);
+  });
+  it("with 0 photos clears image and omits the images key", () => {
+    const s = persistedService(setServiceImages(sample(), "head-spa", 1, []));
+    expect(s.image).toBe("");
+    expect("images" in s).toBe(false);
+  });
+  it("drops empty URLs so a leading empty string never becomes the cover", () => {
+    const s = persistedService(setServiceImages(sample(), "head-spa", 1, ["", "real"]));
+    expect(s.image).toBe("real");
+    expect("images" in s).toBe(false);
+  });
+  it("does not mutate the input data", () => {
+    const data = sample();
+    setServiceImages(data, "head-spa", 1, ["a", "b"]);
+    expect(data.categories[0].services[0].image).toBe("x");
+    expect("images" in data.categories[0].services[0]).toBe(false);
+  });
+  it("downgrading a multi-photo service to one photo drops the images key", () => {
+    const withGallery = setServiceImages(sample(), "head-spa", 1, ["a", "b"]);
+    const downgraded = setServiceImages(withGallery, "head-spa", 1, ["a"]);
+    const s = JSON.parse(JSON.stringify(downgraded)).categories[0].services[0];
+    expect(s.image).toBe("a");
+    expect("images" in s).toBe(false);
   });
 });
