@@ -97,6 +97,7 @@ export function AddPhotoTile({ onAdd }) {
           onKeyDown={(e) => e.key === "Enter" && submitUrl()}
         />
         <button type="button" style={{ ...styles.primaryBtn, width: "auto", minHeight: "44px", padding: "0 16px" }} onClick={submitUrl}>OK</button>
+        <button type="button" onClick={() => { setUrlMode(false); setUrl(""); }} aria-label="Annuler" style={{ border: "none", background: "transparent", color: "rgba(255,255,255,0.6)", fontSize: "14px", cursor: "pointer", padding: "0 8px", minHeight: "44px" }}>Annuler</button>
       </div>
     );
   }

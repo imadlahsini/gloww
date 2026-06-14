@@ -297,7 +297,7 @@ function StoryViewer({ service, categoryName, onClose }) {
           transition: "opacity 0.15s ease",
         }}>
           {images[current] ? (
-            <SafeImage src={images[current]} alt={service.name} />
+            <SafeImage key={images[current]} src={images[current]} alt={service.name} />
           ) : (
             <div style={{
               width: "100%", height: "100%",

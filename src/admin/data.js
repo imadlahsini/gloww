@@ -34,11 +34,8 @@ export function removeService(data, catId, serviceId) {
 
 // Derived story gallery; legacy fallback to [image]. Shared with the public viewer.
 export function galleryImages(service) {
-  return Array.isArray(service?.images) && service.images.length
-    ? service.images
-    : service?.image
-      ? [service.image]
-      : [];
+  const imgs = (Array.isArray(service?.images) ? service.images : []).filter(Boolean);
+  return imgs.length ? imgs : service?.image ? [service.image] : [];
 }
 
 // The ONLY writer for a service's gallery. Enforces both invariants in one place:

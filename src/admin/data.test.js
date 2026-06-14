@@ -152,4 +152,11 @@ describe("setServiceImages", () => {
     expect(data.categories[0].services[0].image).toBe("x");
     expect("images" in data.categories[0].services[0]).toBe(false);
   });
+  it("downgrading a multi-photo service to one photo drops the images key", () => {
+    const withGallery = setServiceImages(sample(), "head-spa", 1, ["a", "b"]);
+    const downgraded = setServiceImages(withGallery, "head-spa", 1, ["a"]);
+    const s = JSON.parse(JSON.stringify(downgraded)).categories[0].services[0];
+    expect(s.image).toBe("a");
+    expect("images" in s).toBe(false);
+  });
 });
