@@ -92,11 +92,11 @@
           "name": "Makeup Mariée",
           "price": 2500,
           "duration": "1h",
-          "image": "https://ibb.co/8gzQcDWN",
+          "image": "https://picsum.photos/seed/bridal/400/300",
           "description": "Mise en beauté complète pour le jour J à partir de",
           "images": [
-            "https://ibb.co/8gzQcDWN",
-            "https://picsum.photos/seed/bridal/400/300"
+            "https://picsum.photos/seed/bridal/400/300",
+            "https://ibb.co/8gzQcDWN"
           ]
         },
         {
