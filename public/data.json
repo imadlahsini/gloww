@@ -100,8 +100,12 @@
           "name": "Makeup Fiançailles",
           "price": 1500,
           "duration": "2h 45m",
-          "image": "https://picsum.photos/seed/fiance/400/300",
-          "description": "Look raffiné pour vos fiançailles à partir de"
+          "image": "https://i.ibb.co/LdQWWz57/makeup-fianc.webp",
+          "description": "Look raffiné pour vos fiançailles à partir de",
+          "images": [
+            "https://i.ibb.co/LdQWWz57/makeup-fianc.webp",
+            "https://picsum.photos/seed/fiance/400/300"
+          ]
         },
         {
           "id": 10,
