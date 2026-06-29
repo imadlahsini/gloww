@@ -76,8 +76,12 @@
           "name": "Détatouage",
           "price": 400,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/detat/400/300",
-          "description": "Retrait de tatouage par laser à partir de"
+          "image": "https://i.ibb.co/4nNwwkZ6/detato.webp",
+          "description": "Retrait de tatouage par laser à partir de",
+          "images": [
+            "https://i.ibb.co/4nNwwkZ6/detato.webp",
+            "https://picsum.photos/seed/detat/400/300"
+          ]
         }
       ]
     },
