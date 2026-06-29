@@ -109,7 +109,11 @@
           "price": 600,
           "duration": "1h 30m",
           "image": "https://picsum.photos/seed/invitee/400/300",
-          "description": "Maquillage élégant pour événement"
+          "description": "Maquillage élégant pour événement",
+          "images": [
+            "https://picsum.photos/seed/invitee/400/300",
+            "https://i.ibb.co/jPWp0RxM/Makeup-invite.webp"
+          ]
         },
         {
           "id": 11,
