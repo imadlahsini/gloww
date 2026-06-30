@@ -76,15 +76,19 @@
           "name": "Détatouage",
           "price": 400,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/detat/400/300",
-          "description": "Retrait de tatouage par laser à partir de"
+          "image": "https://i.ibb.co/4nNwwkZ6/detato.webp",
+          "description": "Retrait de tatouage par laser à partir de",
+          "images": [
+            "https://i.ibb.co/4nNwwkZ6/detato.webp",
+            "https://picsum.photos/seed/detat/400/300"
+          ]
         }
       ]
     },
     {
       "id": "makeup",
       "name": "Makeup Artist",
-      "image": "https://ibb.co/8gzQcDWN",
+      "image": "https://i.ibb.co/Qv8xdF2p/makeup-artist.webp",
       "heroImage": "https://picsum.photos/seed/makeup88/800/1200",
       "services": [
         {
@@ -92,7 +96,7 @@
           "name": "Makeup Mariée",
           "price": 2500,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/bridal/400/300",
+          "image": "https://i.ibb.co/Qv8xdF2p/makeup-artist.webp",
           "description": "Mise en beauté complète pour le jour J à partir de"
         },
         {
@@ -100,24 +104,36 @@
           "name": "Makeup Fiançailles",
           "price": 1500,
           "duration": "2h 45m",
-          "image": "https://picsum.photos/seed/fiance/400/300",
-          "description": "Look raffiné pour vos fiançailles à partir de"
+          "image": "https://i.ibb.co/LdQWWz57/makeup-fianc.webp",
+          "description": "Look raffiné pour vos fiançailles à partir de",
+          "images": [
+            "https://i.ibb.co/LdQWWz57/makeup-fianc.webp",
+            "https://picsum.photos/seed/fiance/400/300"
+          ]
         },
         {
           "id": 10,
           "name": "Makeup Invitée",
           "price": 600,
           "duration": "1h 30m",
-          "image": "https://picsum.photos/seed/invitee/400/300",
-          "description": "Maquillage élégant pour événement"
+          "image": "https://i.ibb.co/jPWp0RxM/Makeup-invite.webp",
+          "description": "Maquillage élégant pour événement",
+          "images": [
+            "https://i.ibb.co/jPWp0RxM/Makeup-invite.webp",
+            "https://picsum.photos/seed/invitee/400/300"
+          ]
         },
         {
           "id": 11,
           "name": "Makeup Salon",
           "price": 250,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/maksal/400/300",
-          "description": "Maquillage professionnel en salon"
+          "image": "https://i.ibb.co/8LLfs39s/makeup-salon.webp",
+          "description": "Maquillage professionnel en salon",
+          "images": [
+            "https://i.ibb.co/8LLfs39s/makeup-salon.webp",
+            "https://picsum.photos/seed/maksal/400/300"
+          ]
         }
       ]
     },
@@ -524,8 +540,12 @@
           "name": "Vernis Normal",
           "price": 50,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/vernnorm/400/300",
-          "description": "Application vernis classique"
+          "image": "https://i.ibb.co/8gKXVYsj/Whats-App-Image-2026-06-30-at-07-32-12.webp",
+          "description": "Application vernis classique",
+          "images": [
+            "https://i.ibb.co/8gKXVYsj/Whats-App-Image-2026-06-30-at-07-32-12.webp",
+            "https://picsum.photos/seed/vernnorm/400/300"
+          ]
         },
         {
           "id": 59,
