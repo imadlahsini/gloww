@@ -192,8 +192,12 @@
           "name": "Demis Jambes",
           "price": 600,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/laserhleg/400/300",
-          "description": "Épilation laser demi-jambes"
+          "image": "https://i.ibb.co/KxGZ94Mj/demi-jambes-laser.webp",
+          "description": "Épilation laser demi-jambes",
+          "images": [
+            "https://i.ibb.co/KxGZ94Mj/demi-jambes-laser.webp",
+            "https://picsum.photos/seed/laserhleg/400/300"
+          ]
         },
         {
           "id": 20,
