@@ -224,8 +224,12 @@
           "name": "Menton",
           "price": 200,
           "duration": "20m",
-          "image": "https://picsum.photos/seed/laserchin/400/300",
-          "description": "Traitement laser ciblé du menton"
+          "image": "https://i.ibb.co/cK8FfLyb/menton-laser.webp",
+          "description": "Traitement laser ciblé du menton",
+          "images": [
+            "https://i.ibb.co/cK8FfLyb/menton-laser.webp",
+            "https://picsum.photos/seed/laserchin/400/300"
+          ]
         }
       ]
     },
