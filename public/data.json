@@ -312,8 +312,12 @@
           "name": "Aisselle",
           "price": 30,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/waxax/400/300",
-          "description": "Épilation cire des aisselles"
+          "image": "https://i.ibb.co/4gm49fjg/epilation-aissailles1.webp",
+          "description": "Épilation cire des aisselles",
+          "images": [
+            "https://i.ibb.co/4gm49fjg/epilation-aissailles1.webp",
+            "https://picsum.photos/seed/waxax/400/300"
+          ]
         },
         {
           "id": 34,
