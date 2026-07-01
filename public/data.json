@@ -369,7 +369,11 @@
           "price": 600,
           "duration": "1h",
           "image": "https://picsum.photos/seed/eclat/400/300",
-          "description": "Soin luminosité et éclat du teint"
+          "description": "Soin luminosité et éclat du teint",
+          "images": [
+            "https://picsum.photos/seed/eclat/400/300",
+            "https://i.ibb.co/PzPK2C5V/soin-eclat.webp"
+          ]
         },
         {
           "id": 39,
