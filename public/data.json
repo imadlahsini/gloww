@@ -264,8 +264,12 @@
           "name": "Bras Complet",
           "price": 60,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/waxarms/400/300",
-          "description": "Épilation complète des bras"
+          "image": "https://i.ibb.co/Lz4tsYQc/bras-complet-epilation1.webp",
+          "description": "Épilation complète des bras",
+          "images": [
+            "https://i.ibb.co/Lz4tsYQc/bras-complet-epilation1.webp",
+            "https://picsum.photos/seed/waxarms/400/300"
+          ]
         },
         {
           "id": 28,
