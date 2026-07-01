@@ -27,11 +27,11 @@
           "name": "Soin Hydratant du Cuir Chevelu",
           "price": 450,
           "duration": "45m",
-          "image": "https://picsum.photos/seed/hydraspa/400/300",
+          "image": "https://i.ibb.co/5gpqDTfT/Soin-Hydratant-du-Cuir-Chevelu.webp",
           "description": "Hydratation profonde et revitalisante",
           "images": [
-            "https://picsum.photos/seed/hydraspa/400/300",
-            "https://i.ibb.co/5gpqDTfT/Soin-Hydratant-du-Cuir-Chevelu.webp"
+            "https://i.ibb.co/5gpqDTfT/Soin-Hydratant-du-Cuir-Chevelu.webp",
+            "https://picsum.photos/seed/hydraspa/400/300"
           ]
         },
         {
