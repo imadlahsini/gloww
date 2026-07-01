@@ -240,8 +240,12 @@
           "name": "Corps Complet",
           "price": 300,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/waxfull/400/300",
-          "description": "Épilation intégrale à la cire"
+          "image": "https://i.ibb.co/99hBmqNV/corps-complet-epilation1.webp",
+          "description": "Épilation intégrale à la cire",
+          "images": [
+            "https://i.ibb.co/99hBmqNV/corps-complet-epilation1.webp",
+            "https://picsum.photos/seed/waxfull/400/300"
+          ]
         },
         {
           "id": 25,
