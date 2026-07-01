@@ -304,8 +304,12 @@
           "name": "Sourcils",
           "price": 30,
           "duration": "20m",
-          "image": "https://picsum.photos/seed/waxbrow/400/300",
-          "description": "Mise en forme des sourcils"
+          "image": "https://i.ibb.co/CsPG9WHt/epilation-sourcils1.webp",
+          "description": "Mise en forme des sourcils",
+          "images": [
+            "https://i.ibb.co/CsPG9WHt/epilation-sourcils1.webp",
+            "https://picsum.photos/seed/waxbrow/400/300"
+          ]
         },
         {
           "id": 33,
