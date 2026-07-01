@@ -117,11 +117,7 @@
           "price": 250,
           "duration": "1h",
           "image": "https://i.ibb.co/V0LRVFyJ/makeup-salon.webp",
-          "description": "Maquillage professionnel en salon",
-          "images": [
-            "https://i.ibb.co/V0LRVFyJ/makeup-salon.webp",
-            "https://picsum.photos/seed/maksal/400/300"
-          ]
+          "description": "Maquillage professionnel en salon"
         }
       ]
     },
