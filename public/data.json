@@ -420,8 +420,12 @@
           "name": "Soin Hydratant",
           "price": 200,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/hydrat/400/300",
-          "description": "Hydratation en profondeur du visage"
+          "image": "https://i.ibb.co/VpWFF3Fg/soin-hydratant1.webp",
+          "description": "Hydratation en profondeur du visage",
+          "images": [
+            "https://i.ibb.co/VpWFF3Fg/soin-hydratant1.webp",
+            "https://picsum.photos/seed/hydrat/400/300"
+          ]
         }
       ]
     },
