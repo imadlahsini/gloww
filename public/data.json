@@ -184,8 +184,12 @@
           "name": "Le Dos",
           "price": 600,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/laserback/400/300",
-          "description": "Épilation définitive du dos"
+          "image": "https://i.ibb.co/GfZbXSdz/laser-le-dos.webp",
+          "description": "Épilation définitive du dos",
+          "images": [
+            "https://i.ibb.co/GfZbXSdz/laser-le-dos.webp",
+            "https://picsum.photos/seed/laserback/400/300"
+          ]
         },
         {
           "id": 19,
