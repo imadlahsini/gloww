@@ -422,6 +422,15 @@
           "duration": "1h",
           "image": "https://picsum.photos/seed/hydrat/400/300",
           "description": "Hydratation en profondeur du visage"
+        },
+        {
+          "id": 88,
+          "name": "Nouveau soin",
+          "price": 0,
+          "duration": "1h",
+          "image": "",
+          "description": "",
+          "visible": true
         }
       ]
     },
