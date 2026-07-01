@@ -136,11 +136,11 @@
           "name": "Corps Complet",
           "price": 6000,
           "duration": "2h 15m",
-          "image": "https://picsum.photos/seed/laserfull/400/300",
+          "image": "https://i.ibb.co/nMHNQY7v/laser-corps-complet.webp",
           "description": "Traitement laser intégral du corps à partir de",
           "images": [
-            "https://picsum.photos/seed/laserfull/400/300",
-            "https://i.ibb.co/nMHNQY7v/laser-corps-complet.webp"
+            "https://i.ibb.co/nMHNQY7v/laser-corps-complet.webp",
+            "https://picsum.photos/seed/laserfull/400/300"
           ]
         },
         {
