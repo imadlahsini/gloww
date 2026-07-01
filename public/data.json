@@ -356,8 +356,12 @@
           "name": "Soin Hydrafacial Médical",
           "price": 600,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/hydmed/400/300",
-          "description": "Soin hydrafacial de grade médical à partir de"
+          "image": "https://i.ibb.co/cKf5f2XF/soin-hydrafacial.webp",
+          "description": "Soin hydrafacial de grade médical à partir de",
+          "images": [
+            "https://i.ibb.co/cKf5f2XF/soin-hydrafacial.webp",
+            "https://picsum.photos/seed/hydmed/400/300"
+          ]
         },
         {
           "id": 38,
