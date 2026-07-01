@@ -344,8 +344,12 @@
           "name": "Blanchiment Dentaire",
           "price": 800,
           "duration": "30m",
-          "image": "https://picsum.photos/seed/teeth/400/300",
-          "description": "Éclaircissement dentaire professionnel à partir de"
+          "image": "https://i.ibb.co/YYYC4B4/blanchiment.webp",
+          "description": "Éclaircissement dentaire professionnel à partir de",
+          "images": [
+            "https://i.ibb.co/YYYC4B4/blanchiment.webp",
+            "https://picsum.photos/seed/teeth/400/300"
+          ]
         },
         {
           "id": 37,
