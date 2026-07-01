@@ -273,11 +273,7 @@
           "price": 60,
           "duration": "1h",
           "image": "https://i.ibb.co/0p6mkZV8/epilation-demi-jambes1.webp",
-          "description": "Épilation demi-jambes",
-          "images": [
-            "https://i.ibb.co/0p6mkZV8/epilation-demi-jambes1.webp",
-            "https://picsum.photos/seed/waxhleg/400/300"
-          ]
+          "description": "Épilation demi-jambes"
         },
         {
           "id": 29,
