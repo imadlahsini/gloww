@@ -321,11 +321,7 @@
           "price": 30,
           "duration": "1h",
           "image": "https://i.ibb.co/SXxVd6qg/menton-epilation1.webp",
-          "description": "Épilation cire du menton",
-          "images": [
-            "https://i.ibb.co/SXxVd6qg/menton-epilation1.webp",
-            "https://picsum.photos/seed/waxchin/400/300"
-          ]
+          "description": "Épilation cire du menton"
         },
         {
           "id": 35,
