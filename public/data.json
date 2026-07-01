@@ -28,7 +28,11 @@
           "price": 450,
           "duration": "45m",
           "image": "https://picsum.photos/seed/hydraspa/400/300",
-          "description": "Hydratation profonde et revitalisante"
+          "description": "Hydratation profonde et revitalisante",
+          "images": [
+            "https://picsum.photos/seed/hydraspa/400/300",
+            "https://i.ibb.co/5gpqDTfT/Soin-Hydratant-du-Cuir-Chevelu.webp"
+          ]
         },
         {
           "id": 4,
