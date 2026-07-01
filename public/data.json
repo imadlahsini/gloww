@@ -216,8 +216,12 @@
           "name": "Les Aisselles",
           "price": 400,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/laserax/400/300",
-          "description": "Épilation définitive des aisselles"
+          "image": "https://i.ibb.co/nsgvyHtY/les-aisselles-laser.webp",
+          "description": "Épilation définitive des aisselles",
+          "images": [
+            "https://i.ibb.co/nsgvyHtY/les-aisselles-laser.webp",
+            "https://picsum.photos/seed/laserax/400/300"
+          ]
         },
         {
           "id": 23,
