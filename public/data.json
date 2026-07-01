@@ -597,11 +597,7 @@
           "price": 800,
           "duration": "4h 30m",
           "image": "https://i.ibb.co/B5W4SXcM/BALAYAGE.webp",
-          "description": "Balayage peint à la main à partir de",
-          "images": [
-            "https://i.ibb.co/B5W4SXcM/BALAYAGE.webp",
-            "https://picsum.photos/seed/balayage/400/300"
-          ]
+          "description": "Balayage peint à la main à partir de"
         },
         {
           "id": 65,
