@@ -20,11 +20,7 @@
           "price": 500,
           "duration": "1h",
           "image": "https://i.ibb.co/9m7b8XHm/lexury-head-spa.webp",
-          "description": "Expérience premium de bien-être capillaire",
-          "images": [
-            "https://i.ibb.co/9m7b8XHm/lexury-head-spa.webp",
-            "https://picsum.photos/seed/luxspa/400/300"
-          ]
+          "description": "Expérience premium de bien-être capillaire"
         },
         {
           "id": 3,
