@@ -405,11 +405,7 @@
           "price": 300,
           "duration": "1h",
           "image": "https://i.ibb.co/jvQ9dfPK/hydrafacial-simple1.webp",
-          "description": "Soin hydrafacial nettoyant et hydratant",
-          "images": [
-            "https://i.ibb.co/jvQ9dfPK/hydrafacial-simple1.webp",
-            "https://picsum.photos/seed/hydsimp/400/300"
-          ]
+          "description": "Soin hydrafacial nettoyant et hydratant"
         },
         {
           "id": 43,
