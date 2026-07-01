@@ -256,8 +256,12 @@
           "name": "Jambes Complet",
           "price": 80,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/waxlegs/400/300",
-          "description": "Épilation complète des jambes"
+          "image": "https://i.ibb.co/HTcsDjHH/epilation-jambe-complet.png",
+          "description": "Épilation complète des jambes",
+          "images": [
+            "https://i.ibb.co/HTcsDjHH/epilation-jambe-complet.png",
+            "https://picsum.photos/seed/waxlegs/400/300"
+          ]
         },
         {
           "id": 27,
