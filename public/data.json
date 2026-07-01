@@ -101,7 +101,11 @@
           "price": 1500,
           "duration": "2h 45m",
           "image": "https://picsum.photos/seed/fiance/400/300",
-          "description": "Look raffiné pour vos fiançailles à partir de"
+          "description": "Look raffiné pour vos fiançailles à partir de",
+          "images": [
+            "https://picsum.photos/seed/fiance/400/300",
+            "https://i.ibb.co/q33YRc3Z/makeup-fianc.webp"
+          ]
         },
         {
           "id": 10,
