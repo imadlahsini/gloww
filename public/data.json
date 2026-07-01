@@ -161,7 +161,11 @@
           "price": 600,
           "duration": "1h",
           "image": "https://picsum.photos/seed/laserface/400/300",
-          "description": "Traitement laser complet du visage"
+          "description": "Traitement laser complet du visage",
+          "images": [
+            "https://picsum.photos/seed/laserface/400/300",
+            "https://i.ibb.co/sdH73Gbb/face-laser.webp"
+          ]
         },
         {
           "id": 16,
