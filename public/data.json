@@ -280,8 +280,12 @@
           "name": "Bord de Maillot",
           "price": 60,
           "duration": "25m",
-          "image": "https://picsum.photos/seed/waxbord/400/300",
-          "description": "Épilation bordure maillot"
+          "image": "https://i.ibb.co/RdGFYQ4/bord-de-mailllot-epilation1.webp",
+          "description": "Épilation bordure maillot",
+          "images": [
+            "https://i.ibb.co/RdGFYQ4/bord-de-mailllot-epilation1.webp",
+            "https://picsum.photos/seed/waxbord/400/300"
+          ]
         },
         {
           "id": 30,
