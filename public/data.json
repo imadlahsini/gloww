@@ -792,14 +792,6 @@
           "description": "Teinture professionnelle des sourcils"
         }
       ]
-    },
-    {
-      "id": "cat-1782970390048",
-      "name": "Nouvelle catégorie",
-      "image": "",
-      "heroImage": "",
-      "visible": true,
-      "services": []
     }
   ]
 }
