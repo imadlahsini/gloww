@@ -209,11 +209,7 @@
           "price": 400,
           "duration": "1h",
           "image": "https://i.ibb.co/wFGWvqLJ/demi-bras-laser.webp",
-          "description": "Épilation laser demi-bras",
-          "images": [
-            "https://i.ibb.co/wFGWvqLJ/demi-bras-laser.webp",
-            "https://picsum.photos/seed/laserharm/400/300"
-          ]
+          "description": "Épilation laser demi-bras"
         },
         {
           "id": 22,
