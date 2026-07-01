@@ -60,8 +60,12 @@
           "name": "Lifting Colombien",
           "price": 150,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/liftcol/400/300",
-          "description": "Remodelage facial non invasif à partir de"
+          "image": "https://i.ibb.co/TqMvbcHX/lifting.webp",
+          "description": "Remodelage facial non invasif à partir de",
+          "images": [
+            "https://i.ibb.co/TqMvbcHX/lifting.webp",
+            "https://picsum.photos/seed/liftcol/400/300"
+          ]
         }
       ]
     },
