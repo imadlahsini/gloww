@@ -201,11 +201,7 @@
           "price": 500,
           "duration": "1h",
           "image": "https://i.ibb.co/LzH72QWx/la-ventre.webp",
-          "description": "Traitement laser zone abdominale",
-          "images": [
-            "https://i.ibb.co/LzH72QWx/la-ventre.webp",
-            "https://picsum.photos/seed/laserbelly/400/300"
-          ]
+          "description": "Traitement laser zone abdominale"
         },
         {
           "id": 21,
