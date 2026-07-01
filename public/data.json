@@ -289,7 +289,11 @@
           "price": 60,
           "duration": "1h",
           "image": "https://picsum.photos/seed/waxface/400/300",
-          "description": "Épilation complète du visage"
+          "description": "Épilation complète du visage",
+          "images": [
+            "https://picsum.photos/seed/waxface/400/300",
+            "https://i.ibb.co/M5MDkwY3/visage-epilation1.webp"
+          ]
         },
         {
           "id": 31,
