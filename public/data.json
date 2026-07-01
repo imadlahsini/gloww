@@ -328,8 +328,12 @@
           "name": "Duvet",
           "price": 20,
           "duration": "10m",
-          "image": "https://picsum.photos/seed/waxduv/400/300",
-          "description": "Épilation du duvet"
+          "image": "https://i.ibb.co/C5L97pyN/epilation-moustache1.webp",
+          "description": "Épilation du duvet",
+          "images": [
+            "https://i.ibb.co/C5L97pyN/epilation-moustache1.webp",
+            "https://picsum.photos/seed/waxduv/400/300"
+          ]
         }
       ]
     },
