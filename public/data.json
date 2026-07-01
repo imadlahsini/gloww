@@ -452,12 +452,8 @@
           "name": "Remplissage de Gel",
           "price": 250,
           "duration": "1h 30m",
-          "image": "https://picsum.photos/seed/rempli/400/300",
-          "description": "Retouche et remplissage gel",
-          "images": [
-            "https://picsum.photos/seed/rempli/400/300",
-            "https://i.ibb.co/8nfLTp1k/remplissage-gel1.webp"
-          ]
+          "image": "https://i.ibb.co/8nfLTp1k/remplissage-gel1.webp",
+          "description": "Retouche et remplissage gel"
         },
         {
           "id": 48,
