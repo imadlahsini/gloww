@@ -36,11 +36,7 @@
           "price": 400,
           "duration": "40m",
           "image": "https://i.ibb.co/qFFvnycv/Rituel-Relaxant-du-Cuir-Chevelu.webp",
-          "description": "Massage et soin relaxant en profondeur",
-          "images": [
-            "https://i.ibb.co/qFFvnycv/Rituel-Relaxant-du-Cuir-Chevelu.webp",
-            "https://picsum.photos/seed/rituelspa/400/300"
-          ]
+          "description": "Massage et soin relaxant en profondeur"
         },
         {
           "id": 5,
