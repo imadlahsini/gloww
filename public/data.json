@@ -93,11 +93,7 @@
           "price": 2500,
           "duration": "1h",
           "image": "https://picsum.photos/seed/bridal/400/300",
-          "description": "Mise en beauté complète pour le jour J à partir de",
-          "images": [
-            "https://picsum.photos/seed/bridal/400/300",
-            "file:///Users/imad/Downloads/unnamed.webp"
-          ]
+          "description": "Mise en beauté complète pour le jour J à partir de"
         },
         {
           "id": 9,
