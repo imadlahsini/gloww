@@ -297,11 +297,7 @@
           "price": 40,
           "duration": "1h",
           "image": "https://i.ibb.co/mVcQ65vx/demi-bras-epilation1.webp",
-          "description": "Épilation demi-bras",
-          "images": [
-            "https://i.ibb.co/mVcQ65vx/demi-bras-epilation1.webp",
-            "https://picsum.photos/seed/waxharm/400/300"
-          ]
+          "description": "Épilation demi-bras"
         },
         {
           "id": 32,
