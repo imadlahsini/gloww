@@ -77,11 +77,7 @@
           "price": 400,
           "duration": "1h",
           "image": "https://i.ibb.co/hFPynPMd/detatouage.webp",
-          "description": "Retrait de tatouage par laser à partir de",
-          "images": [
-            "https://i.ibb.co/hFPynPMd/detatouage.webp",
-            "https://picsum.photos/seed/detat/400/300"
-          ]
+          "description": "Retrait de tatouage par laser à partir de"
         }
       ]
     },
