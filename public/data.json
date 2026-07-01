@@ -176,8 +176,12 @@
           "name": "Les Fesses",
           "price": 600,
           "duration": "1h",
-          "image": "https://picsum.photos/seed/laserbut/400/300",
-          "description": "Traitement laser zone fessier"
+          "image": "https://i.ibb.co/fGT37MhG/les-fesses-laser.webp",
+          "description": "Traitement laser zone fessier",
+          "images": [
+            "https://i.ibb.co/fGT37MhG/les-fesses-laser.webp",
+            "https://picsum.photos/seed/laserbut/400/300"
+          ]
         },
         {
           "id": 18,
