@@ -248,8 +248,12 @@
           "name": "Maillot",
           "price": 100,
           "duration": "1h",
-          "image": "https://i.ibb.co/CKzHr0Bp/epilation-maillot1.webp",
-          "description": "Épilation cire zone maillot"
+          "image": "https://i.ibb.co/RdGFYQ4/bord-de-mailllot-epilation1.webp",
+          "description": "Épilation cire zone maillot",
+          "images": [
+            "https://i.ibb.co/RdGFYQ4/bord-de-mailllot-epilation1.webp",
+            "https://i.ibb.co/CKzHr0Bp/epilation-maillot1.webp"
+          ]
         },
         {
           "id": 26,
