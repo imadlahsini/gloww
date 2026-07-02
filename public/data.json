@@ -637,7 +637,11 @@
           "price": 500,
           "duration": "1h",
           "image": "https://picsum.photos/seed/caviar/400/300",
-          "description": "Soin réparateur au caviar"
+          "description": "Soin réparateur au caviar",
+          "images": [
+            "https://picsum.photos/seed/caviar/400/300",
+            "https://i.ibb.co/jk3jXdsC/soin-caviar11.webp"
+          ]
         },
         {
           "id": 70,
