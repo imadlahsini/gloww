@@ -629,7 +629,11 @@
           "price": 500,
           "duration": "1h",
           "image": "https://picsum.photos/seed/protrac/400/300",
-          "description": "Application protéine sur racines à partir de"
+          "description": "Application protéine sur racines à partir de",
+          "images": [
+            "https://picsum.photos/seed/protrac/400/300",
+            "https://i.ibb.co/kVdLRxfq/protein-racine11.webp"
+          ]
         },
         {
           "id": 69,
