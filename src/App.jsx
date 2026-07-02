@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { galleryImages } from "./admin/data.js";
 
+const PRICE_FROM_LABEL = "à partir de";
+
 /* ─── Data loading — fetches from data.json, filters hidden items ─── */
 let salonData = { categories: [] };
 
@@ -569,18 +571,26 @@ function MenuItem({ service, onClick }) {
         </h3>
 
         <div style={{
-          display: "flex", alignItems: "center", gap: "10px",
+          display: "flex", alignItems: "flex-end", gap: "10px",
           marginTop: "10px",
         }}>
-          <span style={{
-            fontSize: "18px", fontWeight: 700, color: "#fff",
-            letterSpacing: "-0.5px",
-          }}>
-            {service.price}
+          <span style={{ display: "flex", flexDirection: "column" }}>
             <span style={{
-              fontSize: "11px", fontWeight: 500,
-              color: "rgba(255,255,255,0.35)", marginLeft: "2px",
-            }}>DH</span>
+              fontSize: "11px", letterSpacing: "1.4px", textTransform: "uppercase",
+              color: "rgba(255,255,255,0.4)", lineHeight: 1, marginBottom: "4px",
+            }}>
+              {PRICE_FROM_LABEL}
+            </span>
+            <span style={{
+              fontSize: "18px", fontWeight: 700, color: "#fff",
+              letterSpacing: "-0.5px", lineHeight: 1,
+            }}>
+              {service.price}
+              <span style={{
+                fontSize: "11px", fontWeight: 500,
+                color: "rgba(255,255,255,0.35)", marginLeft: "2px",
+              }}>DH</span>
+            </span>
           </span>
 
           <div style={{
