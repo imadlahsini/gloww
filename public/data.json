@@ -588,8 +588,12 @@
           "name": "Spanish Latté Racine",
           "price": 1200,
           "duration": "2h",
-          "image": "",
-          "description": "Application racine Spanish Latté à partir de"
+          "image": "https://picsum.photos/seed/splatrac/400/300",
+          "description": "Application racine Spanish Latté à partir de",
+          "images": [
+            "https://picsum.photos/seed/splatrac/400/300",
+            "https://i.ibb.co/v4rPTRNb/SPANISH-LATEE.webp"
+          ]
         },
         {
           "id": 64,
