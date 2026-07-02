@@ -326,6 +326,13 @@ function StoryViewer({ service, categoryName, onClose }) {
           transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s",
         }}>
           {/* Price + duration — bold and clear */}
+          <span style={{
+            display: "block",
+            fontSize: "11px", letterSpacing: "2px", textTransform: "uppercase",
+            color: "rgba(255,255,255,0.4)", marginBottom: "8px",
+          }}>
+            {PRICE_FROM_LABEL}
+          </span>
           <div style={{
             display: "flex", gap: "10px", marginBottom: "18px",
             alignItems: "baseline",
