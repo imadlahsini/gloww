@@ -777,6 +777,15 @@
           "image": "",
           "description": "",
           "visible": true
+        },
+        {
+          "id": 92,
+          "name": "Soin ",
+          "price": 0,
+          "duration": "1h",
+          "image": "",
+          "description": "",
+          "visible": true
         }
       ]
     },
