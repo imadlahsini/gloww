@@ -550,6 +550,15 @@
           "duration": "1h",
           "image": "https://i.ibb.co/yMFS5nG/depose-gel1.webp",
           "description": "Retrait vernis semi-permanent"
+        },
+        {
+          "id": 93,
+          "name": "Nouveau soin",
+          "price": 0,
+          "duration": "1h",
+          "image": "",
+          "description": "",
+          "visible": true
         }
       ]
     },
