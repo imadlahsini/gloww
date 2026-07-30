@@ -799,6 +799,15 @@
           "duration": "1h",
           "image": "https://i.ibb.co/HfzyRpBf/coloration-sourcils1.webp",
           "description": "Teinture professionnelle des sourcils"
+        },
+        {
+          "id": 89,
+          "name": "Nouveau soin",
+          "price": 0,
+          "duration": "1h",
+          "image": "",
+          "description": "",
+          "visible": true
         }
       ]
     }
