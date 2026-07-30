@@ -422,15 +422,6 @@
           "duration": "1h",
           "image": "https://i.ibb.co/VpWFF3Fg/soin-hydratant1.webp",
           "description": "Hydratation en profondeur du visage"
-        },
-        {
-          "id": 88,
-          "name": "Gel américain ",
-          "price": 400,
-          "duration": "2h",
-          "image": "",
-          "description": "",
-          "visible": true
         }
       ]
     },
