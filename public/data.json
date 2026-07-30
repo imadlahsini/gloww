@@ -118,7 +118,7 @@
         {
           "id": 11,
           "name": "Makeup Salon",
-          "price": 0,
+          "price": 300,
           "duration": "1h",
           "image": "https://i.ibb.co/V0LRVFyJ/makeup-salon.webp",
           "description": "Maquillage professionnel en salon"
