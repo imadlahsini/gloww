@@ -430,7 +430,7 @@
           "duration": "2h",
           "image": "",
           "description": "",
-          "visible": true
+          "visible": false
         }
       ]
     },
