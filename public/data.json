@@ -835,6 +835,15 @@
           "image": "",
           "description": "",
           "visible": true
+        },
+        {
+          "id": 94,
+          "name": "Rehaussement des cils ",
+          "price": 3000,
+          "duration": "1h",
+          "image": "",
+          "description": "",
+          "visible": true
         }
       ]
     }
